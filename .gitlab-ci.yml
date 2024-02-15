@@ -1,0 +1,58 @@
+include:
+- project: tq-em/build/docker/base-ci
+  file: include.yml
+  ref: initial
+
+image: ${CI_REGISTRY_IMAGE}/docker:latest
+
+stages:
+  - test
+  - docker
+  - ubuntu
+  - others
+
+# Templates
+.test-settings:
+  extends:
+    - .rule-if-no-tag-and-no-default-branch
+    - .gitlab-runner-tag
+
+.release-settings:
+  extends:
+    - .rule-if-tag-or-default-branch
+    - .before-script-docker-login
+    - .gitlab-runner-tag
+
+# Test stage
+Shell Linter:
+  stage: test
+  extends: .test-settings
+  image: ${CI_REGISTRY_IMAGE}/linter:latest
+  script: lint.sh shell
+
+Build all images:
+  stage: test
+  extends: .test-settings
+  script: make all
+  timeout: 3h
+
+# Build stage
+Build docker:
+  stage: docker
+  extends: .release-settings
+  script: make release IMAGE=docker
+
+Build ubuntu:
+  stage: ubuntu
+  extends: .release-settings
+  script: make release IMAGE=ubuntu
+
+Build linter:
+  stage: others
+  extends: .release-settings
+  script: make release IMAGE=linter
+
+Build yocto:
+  stage: others
+  extends: .release-settings
+  script: make release IMAGE=yocto
