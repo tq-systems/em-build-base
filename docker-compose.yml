@@ -1,0 +1,45 @@
+version: '3'
+services:
+  docker:
+    build:
+      context: .
+      dockerfile: docker/docker.Dockerfile
+      args:
+        - DOCKER_USER=${DOCKER_USER}
+        - DOCKER_UID=${DOCKER_UID}
+        - DOCKER_GID=${DOCKER_GID}
+    image: ${BASE_REGISTRY_IMAGE}/docker:${BASE_DOCKER_TAG}
+
+  ubuntu:
+    build:
+      context: .
+      dockerfile: docker/ubuntu.Dockerfile
+      args:
+        - DOCKER_USER=${DOCKER_USER}
+        - DOCKER_UID=${DOCKER_UID}
+        - DOCKER_GID=${DOCKER_GID}
+    image: ${BASE_REGISTRY_IMAGE}/ubuntu:${BASE_DOCKER_TAG}
+    depends_on:
+      - docker
+
+  linter:
+    build:
+      context: .
+      dockerfile: docker/linter.Dockerfile
+      args:
+        - BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
+        - BASE_DOCKER_TAG=${BASE_DOCKER_TAG}
+    image: ${BASE_REGISTRY_IMAGE}/linter:${BASE_DOCKER_TAG}
+    depends_on:
+      - ubuntu
+
+  yocto:
+    build:
+      context: .
+      dockerfile: docker/yocto.Dockerfile
+      args:
+        - BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
+        - BASE_DOCKER_TAG=${BASE_DOCKER_TAG}
+    image: ${BASE_REGISTRY_IMAGE}/yocto:${BASE_DOCKER_TAG}
+    depends_on:
+      - ubuntu
