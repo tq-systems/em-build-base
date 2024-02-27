@@ -43,3 +43,14 @@ services:
     image: ${BASE_REGISTRY_IMAGE}/yocto:${BASE_DOCKER_TAG}
     depends_on:
       - ubuntu
+
+  gitleaks:
+    build:
+      context: .
+      dockerfile: docker/gitleaks.Dockerfile
+      args:
+        - BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
+        - BASE_DOCKER_TAG=${BASE_DOCKER_TAG}
+    image: ${BASE_REGISTRY_IMAGE}/gitleaks:${BASE_DOCKER_TAG}
+    depends_on:
+      - ubuntu
