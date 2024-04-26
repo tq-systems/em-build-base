@@ -47,6 +47,11 @@ Build ubuntu:
   extends: .release-settings
   script: make release IMAGE=ubuntu
 
+Build gitleaks:
+  stage: others
+  extends: .release-settings
+  script: make release IMAGE=gitleaks
+
 Build linter:
   stage: others
   extends: .release-settings
