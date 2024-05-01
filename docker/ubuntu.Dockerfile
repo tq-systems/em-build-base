@@ -18,8 +18,11 @@ ARG DOCKER_USER DOCKER_UID DOCKER_GID
 ENV DOCKER_USER=${DOCKER_USER}
 ENV DOCKER_UID=${DOCKER_UID}
 ENV DOCKER_GID=${DOCKER_GID}
+# The user is non-unique as we need 'docker' and 'tqemci' user
+# with the same UID for gitlab-runner migration steps.
+# The 'non-unique' option has to be removed afterwards.
 RUN groupadd --gid ${DOCKER_GID} ${DOCKER_USER} \
-	&& useradd --create-home --shell /bin/bash \
+	&& useradd --non-unique --create-home --shell /bin/bash \
 		--uid ${DOCKER_UID} --gid ${DOCKER_GID} ${DOCKER_USER}
 
 # install local certificates if existing
