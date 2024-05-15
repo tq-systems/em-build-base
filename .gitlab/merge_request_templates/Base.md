@@ -1,0 +1,13 @@
+# What does this MR do?
+
+Add a description of your merge request here.
+
+## General checklist
+
+- [ ] Successfully tested the changed code locally
+- [ ] Successfully tested the changed code in the CI
+- [ ] The local build works
+- [ ] Updated the documentation
+- [ ] Added a changelog entry
+- [ ] Added a ticket reference: Closes #issue_number
+- [ ] Added comments on more complex parts of the code
