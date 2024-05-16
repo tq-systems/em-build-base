@@ -1,1 +1,6 @@
 ## [{{ version }}]
+### Changed
+- Create non-unique user
+
+### Added
+- Merge request template
