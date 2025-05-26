@@ -1,0 +1,5 @@
+abi <abi/4.0>,
+include <tunables/global>
+profile bitbake /**/bitbake/bin/bitbake flags=(unconfined) {
+        userns,
+}
