@@ -1,4 +1,1 @@
 ## [{{ version }}]
-### Added
-- jq to yocto image
-- add apparmor profile for bitbake (ubuntu 24.04)
