@@ -28,3 +28,6 @@ RUN groupadd --gid ${DOCKER_GID} ${DOCKER_USER} \
 # install local certificates if existing
 COPY ./certs /usr/local/share/ca-certificates
 RUN update-ca-certificates
+
+# copy apparmor.d profile for bitbake (required since ubuntu 24.04)
+COPY ./docker/etc/ /etc/
