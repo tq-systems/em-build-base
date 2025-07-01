@@ -1,3 +1,7 @@
+## [v1.0.4] - 2025-05-27
+### Changed
+- move etc directory addition to ubuntu container
+
 ## [v1.0.3] - 2025-05-27
 ### Added
 - jq to yocto image

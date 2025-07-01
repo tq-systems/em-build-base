@@ -1,1 +1,3 @@
 ## [{{ version }}]
+### Changed
+- remove bitbake AppArmor profile again
