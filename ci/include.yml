@@ -1,6 +1,6 @@
 include: 
-  - local: 'gitlab-runner.yml'
-  - local: 'images.yml'
-  - local: 'jobs.yml'
-  - local: 'rules.yml'
-  - local: 'variables.yml'
+  - local: 'ci/gitlab-runner.yml'
+  - local: 'ci/images.yml'
+  - local: 'ci/jobs.yml'
+  - local: 'ci/rules.yml'
+  - local: 'ci/variables.yml'
