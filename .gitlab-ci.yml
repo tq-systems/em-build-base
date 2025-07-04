@@ -27,7 +27,7 @@ stages:
 Shell Linter:
   stage: test
   extends: .test-settings
-  image: ${CI_REGISTRY_IMAGE}/linter:latest
+  image: ${CI_REGISTRY_IMAGE}/test:latest
   script: lint.sh shell
 
 Build all images:
@@ -47,15 +47,10 @@ Build ubuntu:
   extends: .release-settings
   script: make release IMAGE=ubuntu
 
-Build gitleaks:
+Build test:
   stage: others
   extends: .release-settings
-  script: make release IMAGE=gitleaks
-
-Build linter:
-  stage: others
-  extends: .release-settings
-  script: make release IMAGE=linter
+  script: make release IMAGE=test
 
 Build yocto:
   stage: others

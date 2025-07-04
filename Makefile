@@ -7,7 +7,7 @@
 LOCAL_BASE = local/em/base
 
 # The order results from the build dependencies between the images
-ALL_IMAGES ?= docker ubuntu linter yocto gitleaks
+ALL_IMAGES ?= docker ubuntu test yocto
 COMPOSE_FILE ?= -f docker-compose.yml
 
 IMAGE ?= ${ALL_IMAGES}
