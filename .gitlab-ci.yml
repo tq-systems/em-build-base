@@ -1,7 +1,5 @@
 include:
-- project: tq-em/build/docker/base-ci
-  file: include.yml
-  ref: master
+- local: ci/include.yml
 
 image: ${CI_REGISTRY_IMAGE}/docker:latest
 
