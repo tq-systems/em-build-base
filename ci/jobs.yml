@@ -1,0 +1,52 @@
+# The job expects that FILE, KEY and VALUE are set, ":" is added to $VARIABLE
+.fail-if-variable-value-is-found-in-file:
+  extends: .image-ubuntu
+  script: |
+    if grep "$FILE" -e "$VARIABLE:" | grep -e "$VALUE" >/dev/null; then
+      echo >&2 "Forbidden variable value found in $FILE: $VARIABLE=$VALUE"
+      exit 1
+    fi
+
+.before-script-docker-login:
+  before_script:
+    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+
+.gitleaks:
+  stage: test
+  extends:
+    - .gitlab-runner-tag
+    - .rule-include-merge-requests
+    - .image-gitleaks
+  variables:
+    GIT_STRATEGY: clone
+    GIT_CHECKOUT: "false"
+    GITLEAKS_LOG_OPTS: '${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}..${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}'
+    GITLEAKS_LOCAL_CONFIG: 'gitleaks.toml'
+  before_script:
+    # fetch and checkout of source and target branch
+    - git fetch origin "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+    - git checkout ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}
+    - git checkout ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}
+    # gitleaks insists on a configuration file with the extension .toml
+    - cat "$GITLEAKS_CONFIG" > "$GITLEAKS_LOCAL_CONFIG"
+  script:
+    # scan commits
+    - gitleaks detect -v -c "$GITLEAKS_LOCAL_CONFIG" --log-opts="${GITLEAKS_LOG_OPTS}"
+    # scan commit messages
+    - git log -p "${GITLEAKS_LOG_OPTS}" | gitleaks detect -v -c "$GITLEAKS_LOCAL_CONFIG" --pipe
+
+.lint-python:
+  stage: test
+  extends:
+    - .gitlab-runner-tag
+    - .image-linter
+  script:
+    - lint.sh python
+
+.lint-shell:
+  stage: test
+  extends:
+    - .gitlab-runner-tag
+    - .image-linter
+  script:
+    - lint.sh shell

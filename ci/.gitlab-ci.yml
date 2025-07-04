@@ -1,0 +1,13 @@
+include:
+- local: include.yml
+
+Check docker tag for releases:
+  stage: test
+  variables:
+    FILE: 'images.yml'
+    VARIABLE: 'BASE_DOCKER_TAG'
+    VALUE: 'latest'
+  extends:
+    - .image-ubuntu
+    - .fail-if-variable-value-is-found-in-file
+    - .rule-if-release-branch-or-tag

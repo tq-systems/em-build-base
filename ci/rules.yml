@@ -1,0 +1,129 @@
+# RULES
+# Rules are evaluated in order until the first match. When a match is found,
+# the job is either included or excluded from the pipeline, depending on the configuration.
+# See https://docs.gitlab.com/15.6/ee/ci/jobs/job_control.html for further information.
+
+# ATTENTION:
+# Rules are are not attached if we extend rules more than once, they will be overridden.
+# You have to create a separate rule set, if you want to combine rules.
+
+# SKIP RULES
+.rule-skip-for-integration-tests:
+  rules:
+    - if: $INTEGRATION_ONLY == 'true'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - when: on_success
+
+# INCLUDE RULES
+.rule-include-no-tags:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_TAG == null
+
+.rule-include-tags:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_TAG != null
+
+.rule-include-default-branch: # means master/main only in most cases
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+
+.rule-include-default-branch-or-tags:
+  rules:
+    - if: $CI_COMMIT_TAG != null || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+.rule-include-merge-requests:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+.rule-include-merge-request-for-default-branch:
+  rules:
+    - if: >
+        $CI_PIPELINE_SOURCE == "merge_request_event"
+        && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+
+.rule-include-development-branches:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release/
+      when: never
+    - if: >
+        $CI_COMMIT_TAG == null
+        && $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+        && $CI_PIPELINE_SOURCE != "merge_request_event"
+
+.rule-include-if-target-ip:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $TARGET_IP =~ $VALID_IP_PATTERN
+
+.rule-bundle-integration-tests:
+  rules:
+    - if: >
+        $CI_PIPELINE_SOURCE != "web"
+        && $CI_PIPELINE_SOURCE != "schedule"
+        && $CI_PIPELINE_SOURCE != "push"
+      when: never
+    - if: >
+        $DEFAULT_TARGET_IP =~ $VALID_IP_PATTERN
+        && $DEFAULT_TARGET_MACHINE != ''
+        && $CI_COMMIT_REF_NAME =~ /^release/
+        && $CI_COMMIT_MESSAGE =~ /See merge request/
+      variables:
+        TARGET_IP: $DEFAULT_TARGET_IP
+        TESTER_IP: $DEFAULT_TESTER_IP
+        TESTER_SERIAL_DEV: $DEFAULT_TESTER_SERIAL_DEV
+        TARGET_MACHINE: $DEFAULT_TARGET_MACHINE
+    - if: >
+        $TARGET_IP =~ $VALID_IP_PATTERN
+        && $TARGET_MACHINE != null
+
+# also handle a merge into a release branch
+.rule-if-release-branch-or-tag:
+  rules:
+    - if: '$CI_COMMIT_TAG'
+    - if: '$CI_COMMIT_BRANCH =~ /^release/'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^release/'
+
+# COMBINATION OF RULES
+.rule-skip-tags-and-integration:
+  rules:
+    - if: $INTEGRATION_ONLY == 'true'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_TAG == null
+
+.rule-skip-integration-include-tags:
+  rules:
+    - if: $INTEGRATION_ONLY == 'true'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_TAG != null
+
+# DEFAULT RULES
+.rules-deploy-master:
+  only:
+    refs:
+      - master
+      - main
+
+.rules-deploy-tags:
+  only:
+    refs:
+      - tags
+
+.rules-deploy-master-and-tags:
+  only:
+    refs:
+      - master
+      - main
+      - tags
