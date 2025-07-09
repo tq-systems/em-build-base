@@ -1,3 +1,8 @@
 ## [{{ version }}]
+### Added
+- Add base-ci code to the base project to handle their interdependence in one project
+- Add the gitleaks job
+
 ### Changed
-- remove bitbake AppArmor profile again
+- Merge gitleaks and linter images to the test image
+- Ensure that tagged pipelines only run on docker images with a fixed tag
