@@ -16,7 +16,7 @@
   extends:
     - .gitlab-runner-tag
     - .rule-include-merge-requests
-    - .image-gitleaks
+    - .image-test
   variables:
     GIT_STRATEGY: clone
     GIT_CHECKOUT: "false"
@@ -39,7 +39,7 @@
   stage: test
   extends:
     - .gitlab-runner-tag
-    - .image-linter
+    - .image-test
   script:
     - lint.sh python
 
@@ -47,6 +47,6 @@
   stage: test
   extends:
     - .gitlab-runner-tag
-    - .image-linter
+    - .image-test
   script:
     - lint.sh shell
