@@ -2,8 +2,16 @@
 .fail-if-variable-value-is-found-in-file:
   extends: .image-ubuntu
   script: |
-    if grep "$FILE" -e "$VARIABLE:" | grep -e "$VALUE" >/dev/null; then
+    if grep "$FILE" -e "$VARIABLE:" | grep -q -e "$VALUE"; then
       echo >&2 "Forbidden variable value found in $FILE: $VARIABLE=$VALUE"
+      exit 1
+    fi
+
+.fail-if-variable-value-is-not-found-in-file:
+  extends: .image-ubuntu
+  script: |
+    if ! (grep "$FILE" -e "$VARIABLE:" | grep -q -e "$VALUE"); then
+      echo >&2 "Missing variable value in $FILE: $VARIABLE=$VALUE"
       exit 1
     fi
 
