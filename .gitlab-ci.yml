@@ -1,13 +1,18 @@
 include:
 - local: ci/include.yml
 
-image: ${CI_REGISTRY_IMAGE}/docker:latest
-
 stages:
   - test
   - docker
   - ubuntu
   - others
+
+# Release builds require a fixed version of the docker image running in the pipeline to ensure that
+# we can rebuild a release in the future. This version should be updated from time to time. Also
+# the default branch builds with this tag to test the build before a tag is created. Only the test
+# builds are running with the 'latest' tag.
+variables:
+  RELEASE_DOCKER_TAG: 'v1.0.5'
 
 # Templates
 .test-settings:
@@ -16,10 +21,11 @@ stages:
     - .gitlab-runner-tag
 
 .release-settings:
+  image: ${CI_REGISTRY_IMAGE}/docker:${RELEASE_DOCKER_TAG}
   extends:
-    - .rule-include-default-branch-or-tags
     - .before-script-docker-login
     - .gitlab-runner-tag
+    - .rule-include-default-branch-or-tags
 
 # Test stage
 Shell Linter:
@@ -31,6 +37,7 @@ Shell Linter:
 Build all images:
   stage: test
   extends: .test-settings
+  image: ${CI_REGISTRY_IMAGE}/docker:latest
   script: make all
   timeout: 3h
 
