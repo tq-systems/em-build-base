@@ -44,6 +44,17 @@ Build all images:
 Gitleaks:
   extends: .gitleaks
 
+Check tagged BASE_DOCKER_TAG:
+  stage: test
+  variables:
+    FILE: 'ci/images.yml'
+    VARIABLE: 'BASE_DOCKER_TAG'
+    VALUE: $CI_COMMIT_TAG
+  extends:
+    - .image-ubuntu
+    - .fail-if-variable-value-is-not-found-in-file
+    - .rule-include-tags
+
 # Build stage
 Build docker:
   stage: docker
