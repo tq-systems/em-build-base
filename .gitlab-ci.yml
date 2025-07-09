@@ -41,6 +41,9 @@ Build all images:
   script: make all
   timeout: 3h
 
+Gitleaks:
+  extends: .gitleaks
+
 # Build stage
 Build docker:
   stage: docker
