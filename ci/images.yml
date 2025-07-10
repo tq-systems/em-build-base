@@ -1,5 +1,5 @@
 variables:
-  BASE_DOCKER_TAG: 'latest'
+  BASE_DOCKER_TAG: 'v2.0.0'
 
 .image-ubuntu:
   image: ${BASE_REGISTRY_IMAGE}/ubuntu:${BASE_DOCKER_TAG}
