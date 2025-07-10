@@ -1,8 +1,6 @@
 ## [{{ version }}]
 ### Added
-- Add base-ci code to the base project to handle their interdependence in one project
-- Add the gitleaks job
+- Check default branch for 'latest' image tag
 
-### Changed
-- Merge gitleaks and linter images to the test image
-- Ensure that tagged pipelines only run on docker images with a fixed tag
+### Fixed
+- Fix image definition for checking the docker tag
