@@ -1,15 +1,18 @@
 include:
-- project: tq-em/build/docker/base-ci
-  file: include.yml
-  ref: master
-
-image: ${CI_REGISTRY_IMAGE}/docker:latest
+- local: ci/include.yml
 
 stages:
   - test
   - docker
   - ubuntu
   - others
+
+# Release builds require a fixed version of the docker image running in the pipeline to ensure that
+# we can rebuild a release in the future. This version should be updated from time to time. Also
+# the default branch builds with this tag to test the build before a tag is created. Only the test
+# builds are running with the 'latest' tag.
+variables:
+  RELEASE_DOCKER_TAG: 'v1.0.5'
 
 # Templates
 .test-settings:
@@ -18,23 +21,39 @@ stages:
     - .gitlab-runner-tag
 
 .release-settings:
+  image: ${CI_REGISTRY_IMAGE}/docker:${RELEASE_DOCKER_TAG}
   extends:
-    - .rule-include-default-branch-or-tags
     - .before-script-docker-login
     - .gitlab-runner-tag
+    - .rule-include-default-branch-or-tags
 
 # Test stage
 Shell Linter:
   stage: test
   extends: .test-settings
-  image: ${CI_REGISTRY_IMAGE}/linter:latest
+  image: ${CI_REGISTRY_IMAGE}/test:latest
   script: lint.sh shell
 
 Build all images:
   stage: test
   extends: .test-settings
+  image: ${CI_REGISTRY_IMAGE}/docker:latest
   script: make all
   timeout: 3h
+
+Gitleaks:
+  extends: .gitleaks
+
+Check tagged BASE_DOCKER_TAG:
+  stage: test
+  variables:
+    FILE: 'ci/images.yml'
+    VARIABLE: 'BASE_DOCKER_TAG'
+    VALUE: $CI_COMMIT_TAG
+  extends:
+    - .image-ubuntu
+    - .fail-if-variable-value-is-not-found-in-file
+    - .rule-include-tags
 
 # Build stage
 Build docker:
@@ -47,15 +66,10 @@ Build ubuntu:
   extends: .release-settings
   script: make release IMAGE=ubuntu
 
-Build gitleaks:
+Build test:
   stage: others
   extends: .release-settings
-  script: make release IMAGE=gitleaks
-
-Build linter:
-  stage: others
-  extends: .release-settings
-  script: make release IMAGE=linter
+  script: make release IMAGE=test
 
 Build yocto:
   stage: others

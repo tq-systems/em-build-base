@@ -22,14 +22,14 @@ services:
     depends_on:
       - docker
 
-  linter:
+  test:
     build:
       context: .
-      dockerfile: docker/linter.Dockerfile
+      dockerfile: docker/test.Dockerfile
       args:
         - BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
         - BASE_DOCKER_TAG=${BASE_DOCKER_TAG}
-    image: ${BASE_REGISTRY_IMAGE}/linter:${BASE_DOCKER_TAG}
+    image: ${BASE_REGISTRY_IMAGE}/test:${BASE_DOCKER_TAG}
     depends_on:
       - ubuntu
 
@@ -41,16 +41,5 @@ services:
         - BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
         - BASE_DOCKER_TAG=${BASE_DOCKER_TAG}
     image: ${BASE_REGISTRY_IMAGE}/yocto:${BASE_DOCKER_TAG}
-    depends_on:
-      - ubuntu
-
-  gitleaks:
-    build:
-      context: .
-      dockerfile: docker/gitleaks.Dockerfile
-      args:
-        - BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
-        - BASE_DOCKER_TAG=${BASE_DOCKER_TAG}
-    image: ${BASE_REGISTRY_IMAGE}/gitleaks:${BASE_DOCKER_TAG}
     depends_on:
       - ubuntu

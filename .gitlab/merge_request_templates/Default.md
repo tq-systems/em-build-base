@@ -7,6 +7,7 @@ Add a description of your merge request here.
 - [ ] Successfully tested the changed code locally
 - [ ] Successfully tested the changed code in the CI
 - [ ] The local build works
+- [ ] Common ci functionalities are handled with templates (no duplicated code)
 - [ ] Updated the documentation
 - [ ] Synchronized changelogs with the latest version (if necessary)
 - [ ] Added a changelog entry
