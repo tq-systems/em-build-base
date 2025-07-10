@@ -1,6 +1,1 @@
 ## [{{ version }}]
-### Added
-- Check default branch for 'latest' image tag
-
-### Fixed
-- Fix image definition for checking the docker tag
