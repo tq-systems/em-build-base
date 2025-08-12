@@ -1,6 +1,6 @@
 ## [{{ version }}]
 ### Added
-- Check default branch for 'latest' image tag
+- Move rsync install from yocto to ubuntu image
 
 ### Fixed
-- Fix image definition for checking the docker tag
+- Fix build with 'docker compose'
