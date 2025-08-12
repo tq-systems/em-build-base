@@ -50,7 +50,8 @@ run_linter() {
 	echo "Run linter on $file"
 	case "$mode" in
 	"$SHELL")
-		shellcheck "$file" || found_error
+		# shellcheck disable=SC2086
+		shellcheck -x ${SHELLCHECK_OPTIONS} "$file" || found_error
 		;;
 	"$PYTHON")
 		pylint "$file" || found_error
