@@ -11,6 +11,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get --yes upgrade && apt-get install --yes \
 	ca-certificates \
 	make \
+	rsync \
 && apt-get autoremove --yes && apt-get clean --yes
 
 # add user and group

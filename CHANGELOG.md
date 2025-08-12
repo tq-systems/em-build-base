@@ -1,3 +1,10 @@
+## [2.0.1] - 2025-07-10
+### Added
+- Check default branch for 'latest' image tag
+
+### Fixed
+- Fix image definition for checking the docker tag
+
 ## [2.0.0] - 2025-07-10
 ### Added
 - Add base-ci code to the base project to handle their interdependence in one project

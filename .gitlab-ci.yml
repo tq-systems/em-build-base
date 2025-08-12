@@ -12,7 +12,9 @@ stages:
 # the default branch builds with this tag to test the build before a tag is created. Only the test
 # builds are running with the 'latest' tag.
 variables:
-  RELEASE_DOCKER_TAG: 'v1.0.5'
+  RELEASE_DOCKER_TAG: 'v2.0.1'
+  BASE_REGISTRY_IMAGE: ${CI_REGISTRY_IMAGE}
+  BUILD_TAG: ${CI_COMMIT_TAG}
 
 # Templates
 .test-settings:
