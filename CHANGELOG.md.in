@@ -2,6 +2,7 @@
 ### Added
 - Move rsync install from yocto to ubuntu image
 - shellcheck: Enable external sources and further options
+- Rules for Long Term Tests
 
 ### Fixed
 - Fix build with 'docker compose'
