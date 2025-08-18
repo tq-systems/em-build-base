@@ -5,3 +5,4 @@
 
 ### Fixed
 - Fix build with 'docker compose'
+- add git to ubuntu container
