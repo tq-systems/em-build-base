@@ -10,6 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # install basic tools
 RUN apt-get update && apt-get --yes upgrade && apt-get install --yes \
 	ca-certificates \
+	git \
 	make \
 	rsync \
 && apt-get autoremove --yes && apt-get clean --yes
