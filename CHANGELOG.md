@@ -1,3 +1,12 @@
+## [2.0.2] - 2025-08-18
+### Added
+- Move rsync install from yocto to ubuntu image
+- shellcheck: Enable external sources and further options
+
+### Fixed
+- Fix build with 'docker compose'
+- add git to ubuntu container
+
 ## [2.0.1] - 2025-07-10
 ### Added
 - Check default branch for 'latest' image tag

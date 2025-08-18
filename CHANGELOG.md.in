@@ -1,8 +1,1 @@
 ## [{{ version }}]
-### Added
-- Move rsync install from yocto to ubuntu image
-- shellcheck: Enable external sources and further options
-
-### Fixed
-- Fix build with 'docker compose'
-- add git to ubuntu container
