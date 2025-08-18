@@ -1,32 +1,25 @@
-# Copyright (c) 2024 TQ-Systems GmbH <license@tq-group.com>
+# Copyright (c) 2024-2025 TQ-Systems GmbH <license@tq-group.com>
 # D-82229 Seefeld, Germany. All rights reserved.
 # Author:
 #   Christoph Krutz
 
 # Default string, if no docker registry is defined
 LOCAL_BASE = local/em/base
-
-# The order results from the build dependencies between the images
-ALL_IMAGES ?= docker ubuntu test yocto
-COMPOSE_FILE ?= -f docker-compose.yml
-
-IMAGE ?= ${ALL_IMAGES}
-
-# Support gitlab environment variables if existent
-ifdef CI_REGISTRY_IMAGE
-BASE_REGISTRY_IMAGE = ${CI_REGISTRY_IMAGE}
-endif
 BASE_REGISTRY_IMAGE ?= ${LOCAL_BASE}
 
-ifdef CI_COMMIT_TAG
-BASE_DOCKER_TAG = ${CI_COMMIT_TAG}
+# The if-clause also applies if an empty string is set in CI pipelines
+ifeq ($(strip ${BUILD_TAG}),)
+	BUILD_TAG := latest
 endif
-BASE_DOCKER_TAG ?= latest
 
-# Additional docker-compose build options may be set (e.g. --no-cache)
+# The order results from the build dependencies between the images
+IMAGE ?= docker ubuntu test yocto
+COMPOSE_FILE ?= -f docker-compose.yml
+
+# Additional docker compose build options may be set (e.g. --no-cache)
 BUILD_ARGS ?=
 
-# .env file is read by docker-compose
+# .env file is read by docker compose
 DOCKER_COMPOSE_ENV = .env
 
 DIR_USR_CERTS = /usr/local/share/ca-certificates
@@ -39,35 +32,54 @@ DOCKER_GID ?= 1000
 
 export define DOCKER_COMPOSE_ENV_CONTENT
 BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
-BASE_DOCKER_TAG=${BASE_DOCKER_TAG}
+BUILD_TAG=${BUILD_TAG}
 DOCKER_USER=${DOCKER_USER}
 DOCKER_UID=${DOCKER_UID}
 DOCKER_GID=${DOCKER_GID}
 endef
 
+DOCKER_COMPOSE := docker compose $(COMPOSE_FILE) build $(BUILD_ARGS)
+
+all: prepare ${IMAGE}
+
 # copy local certificates if existent
 local-certs:
+ifneq ("$(wildcard ${DIR_CERTS})","")
+	$(info Use existing certificates in ${DIR_CERTS})
+else
 	mkdir -p ${DIR_CERTS}
 	find ${DIR_USR_CERTS} -type f -name *.crt -exec cp {} ${DIR_CERTS} \;
+endif
 
-prepare: local-certs
+env:
 ifneq ("$(wildcard ${DOCKER_COMPOSE_ENV})","")
-	$(info Using existing ${DOCKER_COMPOSE_ENV}.)
+	$(info Use existing ${DOCKER_COMPOSE_ENV})
 else
 	echo "$${DOCKER_COMPOSE_ENV_CONTENT}" > ${DOCKER_COMPOSE_ENV}
 endif
 
-all: prepare
-	docker-compose ${COMPOSE_FILE} build ${BUILD_ARGS} ${IMAGE}
+prepare: env local-certs
 
-push: prepare
+docker: prepare
+	${DOCKER_COMPOSE} docker
+
+ubuntu: prepare
+	${DOCKER_COMPOSE} ubuntu
+
+test: ubuntu
+	${DOCKER_COMPOSE} test
+
+yocto: ubuntu
+	${DOCKER_COMPOSE} yocto
+
+push: env
 ifeq (${BASE_REGISTRY_IMAGE}, ${LOCAL_BASE})
-	$(error Prevent pushing to non-existing docker.io/${LOCAL_BASE}, exit.)
+	$(error Prevent pushing to non-existing docker.io/${LOCAL_BASE})
 endif
-	docker-compose ${COMPOSE_FILE} push ${IMAGE}
+	docker compose ${COMPOSE_FILE} push ${IMAGE}
 
-pull: prepare
-	docker-compose ${COMPOSE_FILE} pull ${IMAGE}
+pull: env
+	docker compose ${COMPOSE_FILE} pull ${IMAGE}
 
 clean-files:
 	rm -f ${DOCKER_COMPOSE_ENV}
@@ -78,12 +90,16 @@ clean-docker:
 
 clean: clean-files clean-docker
 
-release: all push clean
+release: all
+	$(MAKE) push
+	$(MAKE) clean
 
-update: clean-files pull clean
+update: clean-files
+	$(MAKE) pull
+	$(MAKE) clean
 
-.NOTPARALLEL: release update
-
-.PHONY: prepare all push pull \
+.PHONY: all \
+	prepare env local-certs \
+	push pull \
 	clean-files clean-docker clean \
 	release update
