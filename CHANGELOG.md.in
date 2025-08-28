@@ -1,9 +1,10 @@
 ## [{{ version }}]
 ### Added
-- Move rsync install from yocto to ubuntu image
-- shellcheck: Enable external sources and further options
 - Rules for Long Term Tests
 
+### Changed
+- Switch to the more permissive TQSPSLA-1.0.3 license
+- Remove docker-compose from docker image
+
 ### Fixed
-- Fix build with 'docker compose'
-- add git to ubuntu container
+- Remove git from test image

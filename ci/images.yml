@@ -2,18 +2,18 @@ variables:
   BASE_DOCKER_TAG: 'latest'
 
 .image-ubuntu:
-  image: ${BASE_REGISTRY_IMAGE}/ubuntu:${BASE_DOCKER_TAG}
+  image: ${BASE_REGISTRY}/ubuntu:${BASE_DOCKER_TAG}
 
 .image-test:
-  image: ${BASE_REGISTRY_IMAGE}/test:${BASE_DOCKER_TAG}
+  image: ${BASE_REGISTRY}/test:${BASE_DOCKER_TAG}
 
 .image-docker:
-  image: ${BASE_REGISTRY_IMAGE}/docker:${BASE_DOCKER_TAG}
+  image: ${BASE_REGISTRY}/docker:${BASE_DOCKER_TAG}
 
 # The yocto builds run on a dedicated gitlab-runner,
 # only the 'tqemci' user has the needed permissions
 .image-yocto:
   image:
-    name: ${BASE_REGISTRY_IMAGE}/yocto:${BASE_DOCKER_TAG}
+    name: ${BASE_REGISTRY}/yocto:${BASE_DOCKER_TAG}
     docker:
       user: tqemci

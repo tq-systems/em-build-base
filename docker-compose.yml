@@ -7,7 +7,7 @@ services:
         - DOCKER_USER=${DOCKER_USER}
         - DOCKER_UID=${DOCKER_UID}
         - DOCKER_GID=${DOCKER_GID}
-    image: ${BASE_REGISTRY_IMAGE}/docker:${BUILD_TAG}
+    image: ${BASE_REGISTRY}/docker:${BUILD_TAG}
 
   ubuntu:
     build:
@@ -17,28 +17,22 @@ services:
         - DOCKER_USER=${DOCKER_USER}
         - DOCKER_UID=${DOCKER_UID}
         - DOCKER_GID=${DOCKER_GID}
-    image: ${BASE_REGISTRY_IMAGE}/ubuntu:${BUILD_TAG}
-    depends_on:
-      - docker
+    image: ${BASE_REGISTRY}/ubuntu:${BUILD_TAG}
 
   test:
     build:
       context: .
       dockerfile: docker/test.Dockerfile
       args:
-        - BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
+        - BASE_REGISTRY=${BASE_REGISTRY}
         - BUILD_TAG=${BUILD_TAG}
-    image: ${BASE_REGISTRY_IMAGE}/test:${BUILD_TAG}
-    depends_on:
-      - ubuntu
+    image: ${BASE_REGISTRY}/test:${BUILD_TAG}
 
   yocto:
     build:
       context: .
       dockerfile: docker/yocto.Dockerfile
       args:
-        - BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
+        - BASE_REGISTRY=${BASE_REGISTRY}
         - BUILD_TAG=${BUILD_TAG}
-    image: ${BASE_REGISTRY_IMAGE}/yocto:${BUILD_TAG}
-    depends_on:
-      - ubuntu
+    image: ${BASE_REGISTRY}/yocto:${BUILD_TAG}

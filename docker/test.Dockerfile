@@ -2,14 +2,13 @@
 # Image for test jobs
 #
 
-ARG BASE_REGISTRY_IMAGE
+ARG BASE_REGISTRY
 ARG BUILD_TAG
 FROM zricethezav/gitleaks:v8.18.2 AS tool
-FROM ${BASE_REGISTRY_IMAGE}/ubuntu:${BUILD_TAG}
+FROM ${BASE_REGISTRY}/ubuntu:${BUILD_TAG}
 
 # install test tools
 RUN apt-get update && apt-get --yes upgrade && apt-get install --yes \
-	git \
 	pylint \
 	shellcheck \
 && apt-get autoremove --yes && apt-get clean --yes
