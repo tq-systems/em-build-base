@@ -9,7 +9,6 @@ FROM ${BASE_REGISTRY_IMAGE}/ubuntu:${BUILD_TAG}
 
 # install test tools
 RUN apt-get update && apt-get --yes upgrade && apt-get install --yes \
-	git \
 	pylint \
 	shellcheck \
 && apt-get autoremove --yes && apt-get clean --yes
