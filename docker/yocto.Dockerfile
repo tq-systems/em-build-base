@@ -2,9 +2,9 @@
 # Image for yocto builds
 #
 
-ARG BASE_REGISTRY_IMAGE
+ARG BASE_REGISTRY
 ARG BUILD_TAG
-FROM ${BASE_REGISTRY_IMAGE}/ubuntu:${BUILD_TAG}
+FROM ${BASE_REGISTRY}/ubuntu:${BUILD_TAG}
 
 # https://docs.yoctoproject.org/4.0.15/ref-manual/system-requirements.html#supported-linux-distributions
 # Adaptions:

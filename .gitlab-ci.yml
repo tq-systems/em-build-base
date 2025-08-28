@@ -12,8 +12,8 @@ stages:
 # the default branch builds with this tag to test the build before a tag is created. Only the test
 # builds are running with the 'latest' tag.
 variables:
-  RELEASE_DOCKER_TAG: 'v2.0.1'
-  BASE_REGISTRY_IMAGE: ${CI_REGISTRY_IMAGE}
+  RELEASE_TAG: 'v2.0.1'
+  BASE_REGISTRY: ${CI_REGISTRY_IMAGE}
   BUILD_TAG: ${CI_COMMIT_TAG}
 
 # Templates
@@ -23,7 +23,7 @@ variables:
     - .gitlab-runner-tag
 
 .release-settings:
-  image: ${CI_REGISTRY_IMAGE}/docker:${RELEASE_DOCKER_TAG}
+  image: ${CI_REGISTRY_IMAGE}/docker:${RELEASE_TAG}
   extends:
     - .before-script-docker-login
     - .gitlab-runner-tag
@@ -48,7 +48,7 @@ Gitleaks:
 
 Check BASE_DOCKER_TAG:
   stage: test
-  image: ${CI_REGISTRY_IMAGE}/ubuntu:${RELEASE_DOCKER_TAG}
+  image: ${CI_REGISTRY_IMAGE}/ubuntu:${RELEASE_TAG}
   variables:
     FILE: 'ci/images.yml'
     VARIABLE: 'BASE_DOCKER_TAG'
