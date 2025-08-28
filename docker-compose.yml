@@ -18,8 +18,6 @@ services:
         - DOCKER_UID=${DOCKER_UID}
         - DOCKER_GID=${DOCKER_GID}
     image: ${BASE_REGISTRY_IMAGE}/ubuntu:${BUILD_TAG}
-    depends_on:
-      - docker
 
   test:
     build:
@@ -29,8 +27,6 @@ services:
         - BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
         - BUILD_TAG=${BUILD_TAG}
     image: ${BASE_REGISTRY_IMAGE}/test:${BUILD_TAG}
-    depends_on:
-      - ubuntu
 
   yocto:
     build:
@@ -40,5 +36,3 @@ services:
         - BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
         - BUILD_TAG=${BUILD_TAG}
     image: ${BASE_REGISTRY_IMAGE}/yocto:${BUILD_TAG}
-    depends_on:
-      - ubuntu
