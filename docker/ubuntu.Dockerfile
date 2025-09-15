@@ -30,3 +30,7 @@ RUN groupadd --gid ${DOCKER_GID} ${DOCKER_USER} \
 # install local certificates if existing
 COPY ./certs /usr/local/share/ca-certificates
 RUN update-ca-certificates
+
+# install the TQ-EM shell library
+RUN git clone https://github.com/tq-systems/em-lib-shell /tmp/libshell \
+	&& make -C /tmp/libshell install && rm -rf /tmp/libshell
