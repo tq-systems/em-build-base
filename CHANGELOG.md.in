@@ -1,6 +1,7 @@
 ## [{{ version }}]
 ### Added
 - Rules for Long Term Tests
+- TQ-EM shell library installation in the ubuntu image
 
 ### Changed
 - Switch to the more permissive TQSPSLA-1.0.3 license
