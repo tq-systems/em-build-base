@@ -22,6 +22,20 @@
       when: never
     - when: on_success
 
+.rule-skip-alpha-or-longterm:
+  rules:
+    - if: '$ALPHA_BUILD'
+      when: never
+    - if: $LONG_TERM_TEST_INIT == 'true' || $LONG_TERM_TEST_PERIODIC == 'true'
+      when: never
+    - when: on_success
+
+.rule-skip-for-alpha-builds:
+  rules:
+    - if: '$ALPHA_BUILD'
+      when: never
+    - when: on_success
+
 # INCLUDE RULES
 .rule-include-no-tags:
   rules:
@@ -99,6 +113,7 @@
         $CI_PIPELINE_SOURCE != "web"
         && $CI_PIPELINE_SOURCE != "schedule"
         && $CI_PIPELINE_SOURCE != "push"
+        && $ALPHA_BUILD == "true"
       when: never
     - if: >
         $TARGET_IP =~ $VALID_IP_PATTERN
@@ -111,6 +126,7 @@
         $CI_PIPELINE_SOURCE != "web"
         && $CI_PIPELINE_SOURCE != "schedule"
         && $CI_PIPELINE_SOURCE != "push"
+        && $ALPHA_BUILD == "true"
       when: never
     - if: >
         $TARGET_IP =~ $VALID_IP_PATTERN
