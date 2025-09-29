@@ -1,3 +1,16 @@
+## [2.0.3] - 2025-09-29
+### Added
+- Rules for Long Term Tests
+- TQ-EM shell library installation in the ubuntu image
+- CI rules: added combined skip rule for alpha/long-term tests and extended include rules to respect ALPHA_BUILD
+
+### Changed
+- Switch to the more permissive TQSPSLA-1.0.3 license
+- Remove docker-compose from docker image
+
+### Fixed
+- Remove git from test image
+
 ## [2.0.2] - 2025-08-18
 ### Added
 - Move rsync install from yocto to ubuntu image
