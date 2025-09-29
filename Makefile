@@ -5,7 +5,7 @@
 
 # Default string, if no docker registry is defined
 LOCAL_BASE = local/em/base
-BASE_REGISTRY_IMAGE ?= ${LOCAL_BASE}
+BASE_REGISTRY ?= ${LOCAL_BASE}
 
 # The if-clause also applies if an empty string is set in CI pipelines
 ifeq ($(strip ${BUILD_TAG}),)
@@ -31,7 +31,7 @@ DOCKER_UID ?= 1000
 DOCKER_GID ?= 1000
 
 export define DOCKER_COMPOSE_ENV_CONTENT
-BASE_REGISTRY_IMAGE=${BASE_REGISTRY_IMAGE}
+BASE_REGISTRY=${BASE_REGISTRY}
 BUILD_TAG=${BUILD_TAG}
 DOCKER_USER=${DOCKER_USER}
 DOCKER_UID=${DOCKER_UID}
@@ -73,7 +73,7 @@ yocto: ubuntu
 	${DOCKER_COMPOSE} yocto
 
 push: env
-ifeq (${BASE_REGISTRY_IMAGE}, ${LOCAL_BASE})
+ifeq (${BASE_REGISTRY}, ${LOCAL_BASE})
 	$(error Prevent pushing to non-existing docker.io/${LOCAL_BASE})
 endif
 	docker compose ${COMPOSE_FILE} push ${IMAGE}

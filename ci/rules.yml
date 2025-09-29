@@ -16,6 +16,26 @@
       when: never
     - when: on_success
 
+.rule-skip-for-long-term-tests:
+  rules:
+    - if: $LONG_TERM_TEST_INIT == 'true' || $LONG_TERM_TEST_PERIODIC == 'true'
+      when: never
+    - when: on_success
+
+.rule-skip-alpha-or-longterm:
+  rules:
+    - if: '$ALPHA_BUILD'
+      when: never
+    - if: $LONG_TERM_TEST_INIT == 'true' || $LONG_TERM_TEST_PERIODIC == 'true'
+      when: never
+    - when: on_success
+
+.rule-skip-for-alpha-builds:
+  rules:
+    - if: '$ALPHA_BUILD'
+      when: never
+    - when: on_success
+
 # INCLUDE RULES
 .rule-include-no-tags:
   rules:
@@ -71,6 +91,8 @@
         && $CI_PIPELINE_SOURCE != "schedule"
         && $CI_PIPELINE_SOURCE != "push"
       when: never
+    - if: $LONG_TERM_TEST_INIT == 'true' || $LONG_TERM_TEST_PERIODIC == 'true'
+      when: never
     - if: >
         $DEFAULT_TARGET_IP =~ $VALID_IP_PATTERN
         && $DEFAULT_TARGET_MACHINE != ''
@@ -84,6 +106,32 @@
     - if: >
         $TARGET_IP =~ $VALID_IP_PATTERN
         && $TARGET_MACHINE != null
+
+.rule-long-term-test-init:
+  rules:
+    - if: >
+        $CI_PIPELINE_SOURCE != "web"
+        && $CI_PIPELINE_SOURCE != "schedule"
+        && $CI_PIPELINE_SOURCE != "push"
+        && $ALPHA_BUILD == "true"
+      when: never
+    - if: >
+        $TARGET_IP =~ $VALID_IP_PATTERN
+        && $TARGET_MACHINE != null
+        && $LONG_TERM_TEST_INIT == 'true'
+
+.rule-long-term-test-periodic:
+  rules:
+    - if: >
+        $CI_PIPELINE_SOURCE != "web"
+        && $CI_PIPELINE_SOURCE != "schedule"
+        && $CI_PIPELINE_SOURCE != "push"
+        && $ALPHA_BUILD == "true"
+      when: never
+    - if: >
+        $TARGET_IP =~ $VALID_IP_PATTERN
+        && $TARGET_MACHINE != null
+        && $LONG_TERM_TEST_PERIODIC == 'true'
 
 # also handle a merge into a release branch
 .rule-if-release-branch-or-tag:
