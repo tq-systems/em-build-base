@@ -30,6 +30,18 @@
   script:
     - lint.sh python
 
+.python-unit-tests:
+  stage: test
+  extends:
+    - .gitlab-runner-tag
+    - .image-test
+  script:
+    - >
+        for test_file in $(find . -type f -name '*_test.py' | sort); do
+        echo "*** Running Python test $test_file ***";
+        "./$test_file" && echo 'success' || { echo 'FAILED' && false; };
+        done
+
 .lint-shell:
   stage: test
   extends:
