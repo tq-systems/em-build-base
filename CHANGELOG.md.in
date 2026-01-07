@@ -4,10 +4,12 @@
 - TQ-EM shell library installation in the ubuntu image
 - CI rules: added combined skip rule for alpha/long-term tests and extended include rules to respect ALPHA_BUILD
 - yq to test image
+- CI job template .python-unit-tests and .shell-unit-tests
 
 ### Changed
 - Switch to the more permissive TQSPSLA-1.0.3 license
 - Remove docker-compose from docker image
+- Moved test-related CI job templates to tests.yml
 
 ### Fixed
 - Remove git from test image
