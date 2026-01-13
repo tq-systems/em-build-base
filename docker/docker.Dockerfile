@@ -2,7 +2,7 @@
 # Image for building docker images
 #
 
-FROM cruizba/ubuntu-dind:jammy-25.0.1
+FROM cruizba/ubuntu-dind:jammy-29.1.4
 
 # install basic tools
 RUN apt-get update && apt-get --yes upgrade && apt-get install --yes \
