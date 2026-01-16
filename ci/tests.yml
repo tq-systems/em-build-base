@@ -1,0 +1,63 @@
+.gitleaks:
+  stage: test
+  extends:
+    - .gitlab-runner-tag
+    - .rule-include-merge-requests
+    - .image-test
+  variables:
+    GIT_STRATEGY: clone
+    GIT_CHECKOUT: "false"
+    GITLEAKS_LOG_OPTS: '${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}..${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}'
+    GITLEAKS_LOCAL_CONFIG: 'gitleaks.toml'
+  before_script:
+    # fetch and checkout of source and target branch
+    - git fetch origin "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+    - git checkout ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}
+    - git checkout ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}
+    # gitleaks insists on a configuration file with the extension .toml
+    - cat "$GITLEAKS_CONFIG" > "$GITLEAKS_LOCAL_CONFIG"
+  script:
+    # scan commits
+    - gitleaks detect -v -c "$GITLEAKS_LOCAL_CONFIG" --log-opts="${GITLEAKS_LOG_OPTS}"
+    # scan commit messages
+    - git log -p "${GITLEAKS_LOG_OPTS}" | gitleaks detect -v -c "$GITLEAKS_LOCAL_CONFIG" --pipe
+
+.lint-python:
+  stage: test
+  extends:
+    - .gitlab-runner-tag
+    - .image-test
+  script:
+    - lint.sh python
+
+.python-unit-tests:
+  stage: test
+  extends:
+    - .gitlab-runner-tag
+    - .image-test
+  script:
+    - >
+        for test_file in $(find . -type f -name '*_test.py' | sort); do
+        echo "*** Running Python test $test_file ***";
+        "./$test_file" && echo 'success' || { echo 'FAILED' && false; };
+        done
+
+.lint-shell:
+  stage: test
+  extends:
+    - .gitlab-runner-tag
+    - .image-test
+  script:
+    - lint.sh shell
+
+.shell-unit-tests:
+  stage: test
+  extends:
+    - .gitlab-runner-tag
+    - .image-test
+  script:
+    - >
+        for test_file in $(find . -type f -name '*_test.sh' | sort); do
+        echo "*** Running Shell test $test_file ***";
+        "./$test_file" && echo 'success' || { echo 'FAILED' && false; };
+        done
