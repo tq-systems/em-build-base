@@ -49,3 +49,15 @@
     - .image-test
   script:
     - lint.sh shell
+
+.shell-unit-tests:
+  stage: test
+  extends:
+    - .gitlab-runner-tag
+    - .image-test
+  script:
+    - >
+        for test_file in $(find . -type f -name '*_test.sh' | sort); do
+        echo "*** Running Shell test $test_file ***";
+        "./$test_file" && echo 'success' || { echo 'FAILED' && false; };
+        done
