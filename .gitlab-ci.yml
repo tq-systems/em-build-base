@@ -46,6 +46,12 @@ Build all images:
 Gitleaks:
   extends: .gitleaks
 
+Shell Unit Tests:
+  extends: .shell-unit-tests
+
+Python Unit Tests:
+  extends: .python-unit-tests
+
 Check BASE_DOCKER_TAG:
   stage: test
   image: ${CI_REGISTRY_IMAGE}/ubuntu:${RELEASE_TAG}
