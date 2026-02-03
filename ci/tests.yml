@@ -1,9 +1,14 @@
+.prevent-loading-artifacts-and-cache:
+  dependencies: []
+  cache: []
+
 .gitleaks:
   stage: test
   extends:
     - .gitlab-runner-tag
     - .rule-include-merge-requests
     - .image-test
+    - .prevent-loading-artifacts-and-cache
   variables:
     GIT_STRATEGY: clone
     GIT_CHECKOUT: "false"
@@ -27,6 +32,7 @@
   extends:
     - .gitlab-runner-tag
     - .image-test
+    - .prevent-loading-artifacts-and-cache
   script:
     - lint.sh python
 
@@ -35,6 +41,7 @@
   extends:
     - .gitlab-runner-tag
     - .image-test
+    - .prevent-loading-artifacts-and-cache
   script:
     - >
         for test_file in $(find . -type f -name '*_test.py' | sort); do
@@ -47,6 +54,7 @@
   extends:
     - .gitlab-runner-tag
     - .image-test
+    - .prevent-loading-artifacts-and-cache
   script:
     - lint.sh shell
 
@@ -55,6 +63,7 @@
   extends:
     - .gitlab-runner-tag
     - .image-test
+    - .prevent-loading-artifacts-and-cache
   script:
     - >
         for test_file in $(find . -type f -name '*_test.sh' | sort); do
