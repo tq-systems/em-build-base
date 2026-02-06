@@ -1,0 +1,40 @@
+# Global test settings
+.trigger-tests:
+  stage: trigger
+  variables:
+    BASE_DOCKER_TAG: 'test-next'
+    BASE_CI_REF: $CI_COMMIT_REF_NAME
+    TRIGGER_TESTS: 'true'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        BASE_DOCKER_TAG: 'test-next'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      variables:
+        BASE_DOCKER_TAG: 'latest'
+    - if: $CI_COMMIT_TAG
+      variables:
+        BASE_DOCKER_TAG: $CI_COMMIT_TAG
+    - if: $BUILD_TAG
+      variables:
+        BASE_DOCKER_TAG: $BUILD_TAG
+    - when: on_success
+
+# Test Jobs
+Trigger yocto project:
+  extends: .trigger-tests
+  variables:
+    YOCTO_BRANCH: 'main'
+  trigger:
+    project: tq-em/public/build/yocto
+    branch: ${YOCTO_BRANCH}
+    strategy: depend
+
+Trigger public toolchain:
+  extends: .trigger-tests
+  variables:
+    PUBLIC_TOOLCHAIN_BRANCH: 'main'
+  trigger:
+    project: tq-em/public/build/toolchain
+    branch: ${PUBLIC_TOOLCHAIN_BRANCH}
+    strategy: depend

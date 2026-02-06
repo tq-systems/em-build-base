@@ -1,11 +1,16 @@
 include:
 - local: ci/include.yml
+- local: .trigger-tests.yml
+  rules:
+    - if: $TRIGGER_TESTS == "true"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 stages:
   - test
   - docker
   - ubuntu
   - others
+  - trigger
 
 # RELEASE_TAG should be updated to an already released version from time to time.
 variables:
@@ -30,7 +35,6 @@ variables:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       variables:
         BUILD_TAG: latest
-    - if: $BUILD_TAG
 
 # Test stage
 Shell Linter:
@@ -41,10 +45,24 @@ Shell Linter:
 
 Build all images:
   stage: test
-  extends: .test-settings
+  extends:
+    - .before-script-docker-login
+    - .test-settings
   image: ${CI_REGISTRY_IMAGE}/docker:latest
-  script: make all
-  timeout: 3h
+  variables:
+    BUILD_TAG: 'test-next'
+  script: |
+    make all
+    if [ "$DEPLOY_TEST_IMAGES" = "true" ]; then
+      make push
+    fi
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        DEPLOY_TEST_IMAGES: 'true'
+    - if: $TRIGGER_TESTS == 'true'
+      variables:
+        DEPLOY_TEST_IMAGES: 'true'
 
 Gitleaks:
   extends: .gitleaks
