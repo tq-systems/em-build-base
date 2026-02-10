@@ -1,20 +1,21 @@
 include:
 - local: ci/include.yml
+- local: .trigger-tests.yml
+  rules:
+    - if: $TRIGGER_TESTS == "true"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 stages:
   - test
   - docker
   - ubuntu
   - others
+  - trigger
 
-# Release builds require a fixed version of the docker image running in the pipeline to ensure that
-# we can rebuild a release in the future. This version should be updated from time to time. Also
-# the default branch builds with this tag to test the build before a tag is created. Only the test
-# builds are running with the 'latest' tag.
+# RELEASE_TAG should be updated to an already released version from time to time.
 variables:
-  RELEASE_TAG: 'v2.0.1'
+  RELEASE_TAG: 'v2.0.3'
   BASE_REGISTRY: ${CI_REGISTRY_IMAGE}
-  BUILD_TAG: ${CI_COMMIT_TAG}
 
 # Templates
 .test-settings:
@@ -23,11 +24,17 @@ variables:
     - .gitlab-runner-tag
 
 .release-settings:
-  image: ${CI_REGISTRY_IMAGE}/docker:${RELEASE_TAG}
   extends:
     - .before-script-docker-login
     - .gitlab-runner-tag
     - .rule-include-default-branch-or-tags
+  rules:
+    - if: $CI_COMMIT_TAG
+      variables:
+        BUILD_TAG: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      variables:
+        BUILD_TAG: latest
 
 # Test stage
 Shell Linter:
@@ -38,19 +45,30 @@ Shell Linter:
 
 Build all images:
   stage: test
-  extends: .test-settings
+  extends:
+    - .before-script-docker-login
+    - .test-settings
   image: ${CI_REGISTRY_IMAGE}/docker:latest
-  script: make all
-  timeout: 3h
+  variables:
+    BUILD_TAG: 'test-next'
+  script: |
+    make all
+    if [ "$DEPLOY_TEST_IMAGES" = "true" ]; then
+      make push
+    fi
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        DEPLOY_TEST_IMAGES: 'true'
+    - if: $TRIGGER_TESTS == 'true'
+      variables:
+        DEPLOY_TEST_IMAGES: 'true'
 
 Gitleaks:
   extends: .gitleaks
 
 Shell Unit Tests:
   extends: .shell-unit-tests
-
-Python Unit Tests:
-  extends: .python-unit-tests
 
 Check BASE_DOCKER_TAG:
   stage: test
@@ -68,24 +86,30 @@ Check BASE_DOCKER_TAG:
       variables:
         VALUE: 'latest'
 
-
 # Build stage
+# The docker image is built using an already published docker image (RELEASE_TAG)
+# to resolve the circular dependency. All other images are built using the docker image
+# that has just been created (BUILD_TAG).
 Build docker:
   stage: docker
+  image: ${CI_REGISTRY_IMAGE}/docker:${RELEASE_TAG}
   extends: .release-settings
   script: make release IMAGE=docker
 
 Build ubuntu:
   stage: ubuntu
+  image: ${CI_REGISTRY_IMAGE}/docker:${BUILD_TAG}
   extends: .release-settings
   script: make release IMAGE=ubuntu
 
 Build test:
   stage: others
+  image: ${CI_REGISTRY_IMAGE}/docker:${BUILD_TAG}
   extends: .release-settings
   script: make release IMAGE=test
 
 Build yocto:
   stage: others
+  image: ${CI_REGISTRY_IMAGE}/docker:${BUILD_TAG}
   extends: .release-settings
   script: make release IMAGE=yocto

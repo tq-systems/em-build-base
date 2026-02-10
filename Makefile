@@ -40,25 +40,17 @@ endef
 
 DOCKER_COMPOSE := docker compose $(COMPOSE_FILE) build $(BUILD_ARGS)
 
-all: prepare ${IMAGE}
+all: ${IMAGE}
 
 # copy local certificates if existent
-local-certs:
-ifneq ("$(wildcard ${DIR_CERTS})","")
-	$(info Use existing certificates in ${DIR_CERTS})
-else
+${DIR_CERTS}:
 	mkdir -p ${DIR_CERTS}
 	find ${DIR_USR_CERTS} -type f -name *.crt -exec cp {} ${DIR_CERTS} \;
-endif
 
-env:
-ifneq ("$(wildcard ${DOCKER_COMPOSE_ENV})","")
-	$(info Use existing ${DOCKER_COMPOSE_ENV})
-else
+${DOCKER_COMPOSE_ENV}:
 	echo "$${DOCKER_COMPOSE_ENV_CONTENT}" > ${DOCKER_COMPOSE_ENV}
-endif
 
-prepare: env local-certs
+prepare: ${DOCKER_COMPOSE_ENV} ${DIR_CERTS}
 
 docker: prepare
 	${DOCKER_COMPOSE} docker
@@ -72,13 +64,13 @@ test: ubuntu
 yocto: ubuntu
 	${DOCKER_COMPOSE} yocto
 
-push: env
+push: ${DOCKER_COMPOSE_ENV}
 ifeq (${BASE_REGISTRY}, ${LOCAL_BASE})
 	$(error Prevent pushing to non-existing docker.io/${LOCAL_BASE})
 endif
 	docker compose ${COMPOSE_FILE} push ${IMAGE}
 
-pull: env
+pull: ${DOCKER_COMPOSE_ENV}
 	docker compose ${COMPOSE_FILE} pull ${IMAGE}
 
 clean-files:
@@ -98,8 +90,7 @@ update: clean-files
 	$(MAKE) pull
 	$(MAKE) clean
 
-.PHONY: all \
-	prepare env local-certs \
-	push pull \
+.PHONY: all prepare push pull \
+	docker ubuntu test yocto \
 	clean-files clean-docker clean \
 	release update

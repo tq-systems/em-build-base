@@ -32,7 +32,7 @@ COPY ./certs /usr/local/share/ca-certificates
 RUN update-ca-certificates
 
 # install the TQ-EM shell library
-ENV LIB_SHELL_VERSION=1.0.0
+ENV LIB_SHELL_VERSION=1.1.2
 RUN git clone https://github.com/tq-systems/em-lib-shell /tmp/libshell \
 	&& git -C /tmp/libshell checkout v${LIB_SHELL_VERSION} \
 	&& make -C /tmp/libshell install && rm -rf /tmp/libshell

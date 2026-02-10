@@ -1,6 +1,5 @@
-variables:
-  GITLAB_RUNNER_TAG: 'tq-em-linux'
-
 .gitlab-runner-tag:
+  variables:
+    GITLAB_RUNNER_TAG: 'tq-em-linux'
   tags:
     - ${GITLAB_RUNNER_TAG}
