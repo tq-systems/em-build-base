@@ -1,13 +1,8 @@
 ## [{{ version }}]
 ### Added
-- yq to test image
-- CI job template .python-unit-tests and .shell-unit-tests
+- ci: Add artifacts templates
+- ubuntu: Add bash-completion
 
 ### Changed
-- Moved test-related CI job templates to tests.yml
-- docker: Update ubuntu-dind to jammy-29.1.4
-- ubuntu: Update shell library to 1.1.3
-- ci/tests: Prevent loading artifacts and cache
-
-### Fixed
-- Remove git from test image
+- ubuntu: Update shell library to 1.1.2 in  image
+- docker: Update dind to 29.1.4
