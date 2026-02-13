@@ -1,4 +1,5 @@
 include:
+  - local: 'ci/artifacts.yml'
   - local: 'ci/gitlab-runner.yml'
   - local: 'ci/images.yml'
   - local: 'ci/jobs.yml'
