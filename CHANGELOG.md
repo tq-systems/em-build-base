@@ -18,7 +18,7 @@
 
 ### Fixed
 - Fix build with 'docker compose'
-- Add git to ubuntu container
+- add git to ubuntu container
 
 ## [2.0.1] - 2025-07-10
 ### Added

@@ -1,0 +1,30 @@
+variables:
+  ARTIFACT_REF: ${CI_PROJECT_NAME}_${CI_COMMIT_SHORT_SHA}
+  ARTIFACTS_DIR: 'artifacts'
+  DEPLOY_DIR: 'deploy'
+
+.artifacts-always-one-day:
+  artifacts:
+    name: $ARTIFACT_REF
+    expire_in: 1 day
+    when: always
+    paths:
+      - $ARTIFACTS_DIR
+      - $DEPLOY_DIR
+
+.artifacts-always-one-week:
+  artifacts:
+    name: $ARTIFACT_REF
+    expire_in: 1 week
+    when: always
+    paths:
+      - $ARTIFACTS_DIR
+      - $DEPLOY_DIR
+
+.artifacts-one-week:
+  artifacts:
+    name: $ARTIFACT_REF
+    expire_in: 1 week
+    paths:
+      - $ARTIFACTS_DIR
+      - $DEPLOY_DIR

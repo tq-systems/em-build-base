@@ -9,6 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # install basic tools
 RUN apt-get update && apt-get --yes upgrade && apt-get install --yes \
+	bash-completion \
 	ca-certificates \
 	git \
 	make \
@@ -32,7 +33,7 @@ COPY ./certs /usr/local/share/ca-certificates
 RUN update-ca-certificates
 
 # install the TQ-EM shell library
-ENV LIB_SHELL_VERSION=1.1.2
+ENV LIB_SHELL_VERSION=2.0.0
 RUN git clone https://github.com/tq-systems/em-lib-shell /tmp/libshell \
 	&& git -C /tmp/libshell checkout v${LIB_SHELL_VERSION} \
 	&& make -C /tmp/libshell install && rm -rf /tmp/libshell
