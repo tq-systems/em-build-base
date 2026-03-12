@@ -1,0 +1,5 @@
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_OPEN_MERGE_REQUESTS != null'
+      when: never
+    - when: always
