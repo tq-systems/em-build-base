@@ -1,4 +1,8 @@
-## [2.1.0] - 2026-03-016
+## [2.1.1] - 2026-03-16
+### Fixed
+- shell test uses a released image
+
+## [2.1.0] - 2026-03-16
 ### Added
 - ci: Add artifacts templates
 - ubuntu: Add bash-completion
