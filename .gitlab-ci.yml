@@ -68,6 +68,7 @@ Gitleaks:
   extends: .gitleaks
 
 Shell Unit Tests:
+  image: ${CI_REGISTRY_IMAGE}/test:${RELEASE_TAG}
   extends: .shell-unit-tests
 
 Check BASE_DOCKER_TAG:
