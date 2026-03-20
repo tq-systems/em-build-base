@@ -12,8 +12,6 @@
   rules:
     - if: $INTEGRATION_ONLY == 'true'
       when: never
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: never
     - when: on_success
 
 .rule-skip-for-long-term-tests:

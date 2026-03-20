@@ -10,3 +10,4 @@
 
 ### Fixed
 - ci/rules.yml: Allow bundle integration tests to run in triggered (downstream) pipelines
+- ci/rules.yml: Allow test jobs to run in merge_request_event pipelines; removing the exclusion from .rule-skip-for-integration-tests restores the previous behavior where tests ran in pipelines associated with open MRs
