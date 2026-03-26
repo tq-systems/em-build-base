@@ -1,3 +1,19 @@
+## [2.1.1] - 2026-03-16
+### Fixed
+- shell test uses a released image
+
+## [2.1.0] - 2026-03-16
+### Added
+- ci: Add artifacts templates
+- ubuntu: Add bash-completion
+
+### Changed
+- ubuntu: Update shell library to 2.0.0 in ubuntu image
+- docker: Update dind to 29.1.4
+
+### Fixed
+- ci/rules.yml: Allow bundle integration tests to run in triggered (downstream) pipelines
+
 ## [2.0.3] - 2025-09-29
 ### Added
 - Rules for Long Term Tests

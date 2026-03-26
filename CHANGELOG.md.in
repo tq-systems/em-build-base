@@ -1,13 +1,1 @@
 ## [{{ version }}]
-### Added
-- ci: Add workflow rules to prevent duplicate push/MR pipelines
-- ci: Add artifacts templates
-- ubuntu: Add bash-completion
-
-### Changed
-- ubuntu: Update shell library to 2.0.0 in ubuntu image
-- docker: Update dind to 29.1.4
-
-### Fixed
-- ci/rules.yml: Allow bundle integration tests to run in triggered (downstream) pipelines
-- ci/rules.yml: Allow test jobs to run in merge_request_event pipelines; removing the exclusion from .rule-skip-for-integration-tests restores the previous behavior where tests ran in pipelines associated with open MRs
