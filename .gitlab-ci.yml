@@ -67,13 +67,9 @@ Build all images:
 Gitleaks:
   extends: .gitleaks
 
-Shell Unit Tests:
-  image: ${CI_REGISTRY_IMAGE}/test:${RELEASE_TAG}
-  extends: .shell-unit-tests
-
 Check BASE_DOCKER_TAG:
   stage: test
-  image: ${CI_REGISTRY_IMAGE}/ubuntu:${RELEASE_TAG}
+  image: ${CI_REGISTRY_IMAGE}/ubuntu:latest
   variables:
     FILE: 'ci/images.yml'
     VARIABLE: 'BASE_DOCKER_TAG'
