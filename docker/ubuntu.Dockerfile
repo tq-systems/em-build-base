@@ -2,7 +2,7 @@
 # Ubuntu image for common settings and tools
 #
 
-FROM amd64/ubuntu:22.04
+FROM amd64/ubuntu:24.04
 
 # set environment
 ENV DEBIAN_FRONTEND=noninteractive
