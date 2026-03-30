@@ -60,6 +60,7 @@ Build all images:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       variables:
         DEPLOY_TEST_IMAGES: 'true'
+        BUILD_TAG: 'mr-${CI_MERGE_REQUEST_IID}'
     - if: $TRIGGER_TESTS == 'true'
       variables:
         DEPLOY_TEST_IMAGES: 'true'
