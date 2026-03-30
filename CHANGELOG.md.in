@@ -10,3 +10,4 @@
 - Update base image from Ubuntu 22.04 to Ubuntu 24.04
 - docker.Dockerfile: replace cruizba/ubuntu-dind with Ubuntu 24.04 and official Docker CLI
 - yocto.Dockerfile: replace libsdl1.2-dev with libsdl2-dev and libegl1-mesa with libegl-dev
+- ubuntu.Dockerfile: remove default Ubuntu 24.04 ubuntu user before creating tqemci
