@@ -1,1 +1,3 @@
 ## [{{ version }}]
+### Changed
+- rules.yml: Remove obsolete merge request cases
