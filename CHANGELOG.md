@@ -1,3 +1,10 @@
+## [2.2.0] - 2026-03-30
+### Added
+- workflow.yml: Prevent duplicated pipelines during merge requests
+
+### Changed
+- rules.yml: Remove obsolete merge request cases
+
 ## [2.1.1] - 2026-03-16
 ### Fixed
 - shell test uses a released image
