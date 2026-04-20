@@ -17,6 +17,7 @@ RUN apt-get update && apt-get --yes upgrade && apt-get install --yes \
 	file \
 	locales \
 	jq \
+	pigz \
 && apt-get autoremove --yes && apt-get clean --yes
 
 RUN locale-gen "en_US.UTF-8"
