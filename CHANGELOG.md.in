@@ -1,1 +1,4 @@
 ## [{{ version }}]
+### Changed
+- rules.yml: Remove obsolete merge request cases
+- yocto: add pigz tool
