@@ -1,3 +1,7 @@
+## [2.2.1] - 2026-04-22
+### Changed
+- yocto: add pigz tool
+
 ## [2.2.0] - 2026-03-30
 ### Added
 - workflow.yml: Prevent duplicated pipelines during merge requests
