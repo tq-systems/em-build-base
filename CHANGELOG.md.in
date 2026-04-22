@@ -2,3 +2,5 @@
 ### Changed
 - rules.yml: Remove obsolete merge request cases
 - yocto: add pigz tool
+- Add TQEM_APT_UBUNTU_SOURCES variable to provide a custom DEB822-formatted apt sources file at
+  build time. Without the variable the base image apt configuration is used unchanged.

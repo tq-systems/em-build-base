@@ -85,10 +85,35 @@ export DOCKER_GID="1001"                         # Default: 1000
 
 # Build options
 export BUILD_ARGS="--no-cache"                   # Additional docker compose args
+
+# Custom apt sources (optional)
+export TQEM_APT_UBUNTU_SOURCES="/path/to/ubuntu.sources"  # DEB822-formatted sources file
 ```
 
 #### Local Certificates
-Place custom certificates in the `certs/` directory. They will be automatically copied to `/usr/local/share/ca-certificates` in all images.
+Place custom certificates in the `tmp/certs/` directory. They will be automatically copied to `/usr/local/share/ca-certificates` in all images. The directory is created by `make prepare`.
+
+#### Custom apt Sources
+By default the apt configuration of the base image is used unchanged. To override it, set
+`TQEM_APT_UBUNTU_SOURCES` to the path of a DEB822-formatted sources file. It is passed as a
+BuildKit secret at build time and replaces the apt sources in all images that run `apt-get`.
+The file never becomes part of the image layers.
+
+Example `ubuntu.sources` file:
+
+```
+Types: deb
+URIs: https://your-mirror.example.com/ubuntu/
+Suites: jammy jammy-updates jammy-backports
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+Types: deb
+URIs: http://security.ubuntu.com/ubuntu/
+Suites: jammy-security
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+```
 
 ### Advanced Usage
 
@@ -144,7 +169,7 @@ The images have the following build order due to dependencies:
 | `release`      | Build all + push + clean           |
 | `update`       | Pull latest + clean                |
 | `clean`        | Clean files and Docker system      |
-| `clean-files`  | Remove .env and certs/             |
+| `clean-files`  | Remove .env and tmp/               |
 | `clean-docker` | Run docker system prune            |
 
 ## License Information
