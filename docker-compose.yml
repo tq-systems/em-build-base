@@ -1,3 +1,7 @@
+secrets:
+  ubuntu_sources:
+    file: ${TQEM_APT_UBUNTU_SOURCES:-/dev/null}
+
 services:
   docker:
     build:
@@ -7,6 +11,8 @@ services:
         - DOCKER_USER=${DOCKER_USER}
         - DOCKER_UID=${DOCKER_UID}
         - DOCKER_GID=${DOCKER_GID}
+      secrets:
+        - ubuntu_sources
     image: ${BASE_REGISTRY}/docker:${BUILD_TAG}
 
   ubuntu:
@@ -17,6 +23,8 @@ services:
         - DOCKER_USER=${DOCKER_USER}
         - DOCKER_UID=${DOCKER_UID}
         - DOCKER_GID=${DOCKER_GID}
+      secrets:
+        - ubuntu_sources
     image: ${BASE_REGISTRY}/ubuntu:${BUILD_TAG}
 
   test:

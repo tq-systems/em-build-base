@@ -8,7 +8,11 @@ FROM amd64/ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # install basic tools
-RUN apt-get update && apt-get --yes upgrade && apt-get install --yes \
+RUN --mount=type=secret,id=ubuntu_sources \
+	[ -s /run/secrets/ubuntu_sources ] \
+	&& cp /run/secrets/ubuntu_sources /etc/apt/sources.list.d/ubuntu.sources \
+	|| true \
+	&& apt-get update && apt-get --yes upgrade && apt-get install --yes \
 	bash-completion \
 	ca-certificates \
 	git \
@@ -29,7 +33,7 @@ RUN groupadd --gid ${DOCKER_GID} ${DOCKER_USER} \
 		--uid ${DOCKER_UID} --gid ${DOCKER_GID} ${DOCKER_USER}
 
 # install local certificates if existing
-COPY ./certs /usr/local/share/ca-certificates
+COPY ./tmp/certs /usr/local/share/ca-certificates
 RUN update-ca-certificates
 
 # install the TQ-EM shell library

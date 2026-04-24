@@ -23,7 +23,9 @@ BUILD_ARGS ?=
 DOCKER_COMPOSE_ENV = .env
 
 DIR_USR_CERTS = /usr/local/share/ca-certificates
-DIR_CERTS = certs
+DIR_TMP = tmp
+DIR_CERTS = ${DIR_TMP}/certs
+TQEM_APT_UBUNTU_SOURCES ?=
 
 # Settings for the user in the docker container
 DOCKER_USER ?= tqemci
@@ -75,7 +77,7 @@ pull: ${DOCKER_COMPOSE_ENV}
 
 clean-files:
 	rm -f ${DOCKER_COMPOSE_ENV}
-	rm -rf ${DIR_CERTS}
+	rm -rf ${DIR_TMP}
 
 clean-docker:
 	docker system prune -f
