@@ -14,7 +14,7 @@ stages:
 
 # RELEASE_TAG should be updated to an already released version from time to time.
 variables:
-  RELEASE_TAG: 'v2.0.3'
+  RELEASE_TAG: 'v2.2.1'
   BASE_REGISTRY: ${CI_REGISTRY_IMAGE}
 
 # Templates
