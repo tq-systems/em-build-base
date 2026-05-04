@@ -2,7 +2,7 @@
 # Ubuntu image for common settings and tools
 #
 
-FROM amd64/ubuntu:22.04
+FROM amd64/ubuntu:24.04
 
 # set environment
 ENV DEBIAN_FRONTEND=noninteractive
@@ -28,7 +28,13 @@ ENV DOCKER_GID=${DOCKER_GID}
 # The user is non-unique as we need 'docker' and 'tqemci' user
 # with the same UID for gitlab-runner migration steps.
 # The 'non-unique' option has to be removed afterwards.
-RUN groupadd --gid ${DOCKER_GID} ${DOCKER_USER} \
+# If UID/GID 1000 is already taken (e.g. by the default 'ubuntu' user in Ubuntu 24.04),
+# remove that user and group before creating our own.
+RUN existing_user=$(getent passwd ${DOCKER_UID} | cut -d: -f1); \
+	[ -n "$existing_user" ] && userdel "$existing_user" || true; \
+	existing_group=$(getent group ${DOCKER_GID} | cut -d: -f1); \
+	[ -n "$existing_group" ] && groupdel "$existing_group" || true; \
+	groupadd --gid ${DOCKER_GID} ${DOCKER_USER} \
 	&& useradd --non-unique --create-home --shell /bin/bash \
 		--uid ${DOCKER_UID} --gid ${DOCKER_GID} ${DOCKER_USER}
 
