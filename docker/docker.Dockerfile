@@ -6,6 +6,10 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# copy local certificates before installing packages so that apt-get install
+# ca-certificates picks them up via update-ca-certificates (dpkg trigger)
+COPY ./tmp/certs /usr/local/share/ca-certificates
+
 # install Docker CE (daemon + CLI) and basic tools
 RUN --mount=type=secret,id=ubuntu_sources \
 	[ -s /run/secrets/ubuntu_sources ] \
@@ -27,10 +31,6 @@ RUN --mount=type=secret,id=ubuntu_sources \
 && apt-get update \
 && apt-get install --yes docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
 && apt-get autoremove --yes && apt-get clean --yes
-
-# install local certificates if existing
-COPY ./tmp/certs /usr/local/share/ca-certificates
-RUN update-ca-certificates
 
 # DinD entrypoint: start dockerd in background, wait for socket, then run the CI command
 RUN printf '#!/bin/sh\ndockerd --host=unix:///var/run/docker.sock &\ntimeout 30 sh -c '"'"'until docker info >/dev/null 2>&1; do sleep 1; done'"'"'\nexec "$@"\n' \
