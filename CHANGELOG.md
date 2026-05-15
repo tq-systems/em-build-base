@@ -1,3 +1,7 @@
+## [3.0.1] - 2026-05-15
+### Fixed
+- docker image: move COPY of local CA certificates before package installation so that curl trusts the TQ corporate CA when fetching the Docker GPG key
+
 ## [3.0.0] - 2026-05-04
 ### Changed
 - rules.yml: Remove obsolete merge request cases
