@@ -1,3 +1,7 @@
+## [3.0.2] - 2026-05-15
+### Fixed
+- ci/images.yml: bump BASE_DOCKER_TAG to v3.0.2 so the tag-build pipeline check passes
+
 ## [3.0.1] - 2026-05-15
 ### Fixed
 - docker image: move COPY of local CA certificates before package installation so that curl trusts the TQ corporate CA when fetching the Docker GPG key
