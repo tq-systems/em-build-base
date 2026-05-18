@@ -14,7 +14,3 @@
       echo >&2 "Missing variable value in $FILE: $VARIABLE=$VALUE"
       exit 1
     fi
-
-.before-script-docker-login:
-  before_script:
-    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD

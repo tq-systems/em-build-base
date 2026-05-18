@@ -1,6 +1,7 @@
 include:
   - local: 'ci/workflow.yml'
   - local: 'ci/artifacts.yml'
+  - local: 'ci/docker.yml'
   - local: 'ci/gitlab-runner.yml'
   - local: 'ci/images.yml'
   - local: 'ci/jobs.yml'
