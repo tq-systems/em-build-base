@@ -1,3 +1,7 @@
+## [3.1.0] - 2026-05-18
+### Added
+- ci: Add .docker-build template with a dedicated runner
+
 ## [3.0.2] - 2026-05-15
 ### Fixed
 - ci/images.yml: bump BASE_DOCKER_TAG to v3.0.2 so the tag-build pipeline check passes

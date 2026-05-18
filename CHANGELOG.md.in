@@ -1,9 +1,1 @@
 ## [{{ version }}]
-### Added
-- ci: Add .docker-build template with a dedicated runner
-
-### Changed
-
-### Fixed
-
-### Removed
