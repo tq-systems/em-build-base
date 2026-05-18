@@ -1,3 +1,21 @@
+## [3.0.2] - 2026-05-15
+### Fixed
+- ci/images.yml: bump BASE_DOCKER_TAG to v3.0.2 so the tag-build pipeline check passes
+
+## [3.0.1] - 2026-05-15
+### Fixed
+- docker image: move COPY of local CA certificates before package installation so that curl trusts the TQ corporate CA when fetching the Docker GPG key
+
+## [3.0.0] - 2026-05-04
+### Changed
+- rules.yml: Remove obsolete merge request cases
+- yocto: add pigz tool
+- Add TQEM_APT_UBUNTU_SOURCES variable to provide a custom DEB822-formatted apt sources file at
+  build time. Without the variable the base image apt configuration is used unchanged.
+- Update base images from Ubuntu 22.04 to Ubuntu 24.04
+- yocto image: replace deprecated libsdl1.2-dev with libsdl2-dev and libegl1-mesa with libegl-dev
+- ci: improve MR pipeline isolation
+
 ## [2.1.1] - 2026-03-16
 ### Fixed
 - shell test uses a released image
