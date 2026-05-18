@@ -14,19 +14,13 @@ stages:
 
 # RELEASE_TAG should be updated to an already released version from time to time.
 variables:
-  RELEASE_TAG: 'v3.0.0'
+  RELEASE_TAG: 'v3.0.2'
   BASE_REGISTRY: ${CI_REGISTRY_IMAGE}
 
 # Templates
-.test-settings:
-  extends:
-    - .rule-include-development-branches
-    - .gitlab-runner-tag
-
 .release-settings:
   extends:
-    - .before-script-docker-login
-    - .gitlab-runner-tag
+    - .docker-build
     - .rule-include-default-branch-or-tags
   rules:
     - if: $CI_COMMIT_TAG
@@ -39,15 +33,17 @@ variables:
 # Test stage
 Shell Linter:
   stage: test
-  extends: .test-settings
+  extends:
+    - .rule-include-development-branches
+    - .gitlab-runner-tag
   image: ${CI_REGISTRY_IMAGE}/test:latest
   script: lint.sh shell
 
 Build all images:
   stage: test
   extends:
-    - .before-script-docker-login
-    - .test-settings
+    - .rule-include-development-branches
+    - .docker-build
   image: ${CI_REGISTRY_IMAGE}/docker:latest
   variables:
     BUILD_TAG: 'test-next'
