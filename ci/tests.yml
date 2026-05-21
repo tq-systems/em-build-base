@@ -44,7 +44,7 @@
     - .prevent-loading-artifacts-and-cache
   script:
     - >
-        for test_file in $(find . -type f -name '*_test.py' | sort); do
+        for test_file in $(find . -type f \( -name '*_test.py' -o -name 'test_*.py' \) | sort); do
         echo "*** Running Python test $test_file ***";
         "./$test_file" && echo 'success' || { echo 'FAILED' && false; };
         done

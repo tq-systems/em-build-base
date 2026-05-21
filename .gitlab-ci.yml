@@ -39,6 +39,11 @@ Shell Linter:
   image: ${CI_REGISTRY_IMAGE}/test:latest
   script: lint.sh shell
 
+Shell Unit Tests:
+  stage: test
+  extends: .shell-unit-tests
+  image: ${CI_REGISTRY_IMAGE}/test:latest
+
 Build all images:
   stage: test
   extends:

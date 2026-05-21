@@ -1,9 +1,7 @@
 ## [{{ version }}]
 ### Added
 - ci: Add .docker-build template with a dedicated runner
+- lint_test.sh: unittest file for lint.sh
 
 ### Changed
-
-### Fixed
-
-### Removed
+- lint.sh: improved argument handling when targeting a specific file
