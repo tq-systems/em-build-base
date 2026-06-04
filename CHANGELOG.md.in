@@ -5,3 +5,4 @@
 
 ### Changed
 - lint.sh: improved argument handling when targeting a specific file
+- lint.sh: added FIND_IGNORE_PATHS variable for paths to be ignored in default and -d mode
