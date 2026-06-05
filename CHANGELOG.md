@@ -1,3 +1,12 @@
+## [3.1.1] - 2026-06-05
+### Added
+- ci: Add .docker-build template with a dedicated runner
+- lint_test.sh: unittest file for lint.sh
+
+### Changed
+- lint.sh: improved argument handling when targeting a specific file
+- lint.sh: added FIND_IGNORE_PATHS variable for paths to be ignored in default and -d mode
+
 ## [3.1.0] - 2026-05-18
 ### Added
 - ci: Add .docker-build template with a dedicated runner
