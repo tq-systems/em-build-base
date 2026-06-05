@@ -15,6 +15,10 @@ PYTHON="python"
 
 OPT_GIVEN=0
 
+declare -a FIND_IGNORE_PATHS=(
+	-not -path '*.git*'
+)
+
 usage() {
 	echo "This script runs a linter on files with typical extensions.
 Files without typical extension need to be specified. If no file or
@@ -72,7 +76,7 @@ parse_options() {
 				OPT_GIVEN=1
 				while IFS= read -r -d '' file; do
 					TARGET_FILES+=("$file")
-				done < <(find "$OPTARG" -type f -print0)
+				done < <(find "$OPTARG" -type f "${FIND_IGNORE_PATHS[@]}" -print0)
 				;;
 			f)
 				OPT_GIVEN=1
@@ -96,7 +100,7 @@ set_target_files() {
 	if [ "$OPT_GIVEN" -eq 0 ]; then
 		while IFS= read -r -d '' file; do
 			TARGET_FILES+=("$file")
-		done < <(find . -type f -name "$ext" -print0)
+		done < <(find . -type f -name "$ext" "${FIND_IGNORE_PATHS[@]}" -print0)
 	fi
 }
 
