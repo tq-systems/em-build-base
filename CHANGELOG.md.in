@@ -6,3 +6,6 @@
 ### Changed
 - lint.sh: improved argument handling when targeting a specific file
 - lint.sh: added FIND_IGNORE_PATHS variable for paths to be ignored in default and -d mode
+
+### Fixed
+- ci/workflow.yml: fix rule so an open merge request no longer triggers a duplicate branch pipeline
