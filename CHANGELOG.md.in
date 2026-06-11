@@ -4,6 +4,5 @@
 ### Changed
 
 ### Fixed
-- ci/workflow.yml: fix rule so an open merge request no longer triggers a duplicate branch pipeline
 
 ### Removed

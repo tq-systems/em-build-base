@@ -1,3 +1,7 @@
+## [3.1.2] - 2026-06-11
+### Fixed
+- ci/workflow.yml: fix rule so an open merge request no longer triggers a duplicate branch pipeline
+
 ## [3.1.1] - 2026-06-05
 ### Added
 - ci: Add .docker-build template with a dedicated runner
