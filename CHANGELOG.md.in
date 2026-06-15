@@ -9,3 +9,4 @@
 
 ### Fixed
 - ci/workflow.yml: fix rule so an open merge request no longer triggers a duplicate branch pipeline
+- ci/workflow.yml: restrict the dedup rule to push pipelines so manual, trigger and schedule pipelines can still run while a merge request is open
