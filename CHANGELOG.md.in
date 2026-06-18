@@ -4,6 +4,5 @@
 ### Changed
 
 ### Fixed
-- ci/workflow.yml: restrict the dedup rule to push pipelines so manual, trigger and schedule pipelines can still run while a merge request is open
 
 ### Removed
