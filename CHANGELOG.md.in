@@ -6,6 +6,9 @@
 ### Changed
 - lint.sh: improved argument handling when targeting a specific file
 - lint.sh: added FIND_IGNORE_PATHS variable for paths to be ignored in default and -d mode
+- ci/rules.yml: gate the integration and long term test rules on TARGET_IP only; the target machine
+  is derived from TQEM_MACHINE in the consuming bundle Makefiles, so it no longer has to be passed
+  per run
 
 ### Fixed
 - ci/workflow.yml: fix rule so an open merge request no longer triggers a duplicate branch pipeline
