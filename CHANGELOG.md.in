@@ -2,9 +2,6 @@
 ### Added
 
 ### Changed
-- ci/rules.yml: gate the integration and long term test rules on TARGET_IP only; the target machine
-  is derived from TQEM_MACHINE in the consuming bundle Makefiles, so it no longer has to be passed
-  per run
 
 ### Fixed
 

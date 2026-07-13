@@ -1,3 +1,9 @@
+## [3.1.4] - 2026-07-13
+### Changed
+- ci/rules.yml: gate the integration and long term test rules on TARGET_IP only; the target machine
+  is derived from TQEM_MACHINE in the consuming bundle Makefiles, so it no longer has to be passed
+  per run
+
 ## [3.1.3] - 2026-06-18
 ### Fixed
 - ci/workflow.yml: restrict the dedup rule to push pipelines so manual, trigger and schedule pipelines can still run while a merge request is open
