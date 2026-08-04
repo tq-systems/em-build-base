@@ -106,9 +106,3 @@ Build test:
   image: ${CI_REGISTRY_IMAGE}/docker:${BUILD_TAG}
   extends: .release-settings
   script: make release IMAGE=test
-
-Build yocto:
-  stage: others
-  image: ${CI_REGISTRY_IMAGE}/docker:${BUILD_TAG}
-  extends: .release-settings
-  script: make release IMAGE=yocto

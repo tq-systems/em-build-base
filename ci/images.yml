@@ -9,11 +9,3 @@ variables:
 
 .image-docker:
   image: ${BASE_REGISTRY}/docker:${BASE_DOCKER_TAG}
-
-# The yocto builds run on a dedicated gitlab-runner,
-# only the 'tqemci' user has the needed permissions
-.image-yocto:
-  image:
-    name: ${BASE_REGISTRY}/yocto:${BASE_DOCKER_TAG}
-    docker:
-      user: tqemci

@@ -13,7 +13,7 @@ ifeq ($(strip ${BUILD_TAG}),)
 endif
 
 # The order results from the build dependencies between the images
-IMAGE ?= docker ubuntu test yocto
+IMAGE ?= docker ubuntu test
 COMPOSE_FILE ?= -f docker-compose.yml
 
 # Additional docker compose build options may be set (e.g. --no-cache)
@@ -63,9 +63,6 @@ ubuntu: prepare
 test: ubuntu
 	${DOCKER_COMPOSE} test
 
-yocto: ubuntu
-	${DOCKER_COMPOSE} yocto
-
 push: ${DOCKER_COMPOSE_ENV}
 ifeq (${BASE_REGISTRY}, ${LOCAL_BASE})
 	$(error Prevent pushing to non-existing docker.io/${LOCAL_BASE})
@@ -93,6 +90,6 @@ update: clean-files
 	$(MAKE) clean
 
 .PHONY: all prepare push pull \
-	docker ubuntu test yocto \
+	docker ubuntu test \
 	clean-files clean-docker clean \
 	release update
