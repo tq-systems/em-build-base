@@ -6,8 +6,7 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# copy local certificates before installing packages so that apt-get install
-# ca-certificates picks them up via update-ca-certificates (dpkg trigger)
+# install local certificates before the apt install to let ca-certificates pick them up
 COPY ./tmp/certs /usr/local/share/ca-certificates
 
 # install Docker CE (daemon + CLI) and basic tools
