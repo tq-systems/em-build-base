@@ -1,3 +1,30 @@
+## [3.1.4] - 2026-07-13
+### Changed
+- ci/rules.yml: gate the integration and long term test rules on TARGET_IP only; the target machine
+  is derived from TQEM_MACHINE in the consuming bundle Makefiles, so it no longer has to be passed
+  per run
+
+## [3.1.3] - 2026-06-18
+### Fixed
+- ci/workflow.yml: restrict the dedup rule to push pipelines so manual, trigger and schedule pipelines can still run while a merge request is open
+
+## [3.1.2] - 2026-06-11
+### Fixed
+- ci/workflow.yml: fix rule so an open merge request no longer triggers a duplicate branch pipeline
+
+## [3.1.1] - 2026-06-05
+### Added
+- ci: Add .docker-build template with a dedicated runner
+- lint_test.sh: unittest file for lint.sh
+
+### Changed
+- lint.sh: improved argument handling when targeting a specific file
+- lint.sh: added FIND_IGNORE_PATHS variable for paths to be ignored in default and -d mode
+
+## [3.1.0] - 2026-05-18
+### Added
+- ci: Add .docker-build template with a dedicated runner
+
 ## [3.0.2] - 2026-05-15
 ### Fixed
 - ci/images.yml: bump BASE_DOCKER_TAG to v3.0.2 so the tag-build pipeline check passes

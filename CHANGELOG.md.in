@@ -1,15 +1,8 @@
 ## [{{ version }}]
-### Added
-- ci: Add .docker-build template with a dedicated runner
-- lint_test.sh: unittest file for lint.sh
-
 ### Changed
-- lint.sh: improved argument handling when targeting a specific file
-- lint.sh: added FIND_IGNORE_PATHS variable for paths to be ignored in default and -d mode
-- ci/rules.yml: gate the integration and long term test rules on TARGET_IP only; the target machine
-  is derived from TQEM_MACHINE in the consuming bundle Makefiles, so it no longer has to be passed
-  per run
+- Update gitleaks to v8.30.1
 
-### Fixed
-- ci/workflow.yml: fix rule so an open merge request no longer triggers a duplicate branch pipeline
-- ci/workflow.yml: restrict the dedup rule to push pipelines so manual, trigger and schedule pipelines can still run while a merge request is open
+### Removed
+- yocto image (moved into the yocto project)
+- shell library (installation moved to yocto/toolchain projects)
+- ci: Removed obsolete .image-yocto template
