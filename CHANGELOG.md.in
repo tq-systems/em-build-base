@@ -1,8 +1,1 @@
 ## [{{ version }}]
-### Changed
-- Update gitleaks to v8.30.1
-
-### Removed
-- yocto image (moved into the yocto project)
-- shell library (installation moved to yocto/toolchain projects)
-- ci: Removed obsolete .image-yocto template
