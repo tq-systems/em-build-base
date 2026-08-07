@@ -4,7 +4,7 @@
 
 ARG BASE_REGISTRY
 ARG BUILD_TAG
-FROM zricethezav/gitleaks:v8.18.2 AS tool
+FROM zricethezav/gitleaks:v8.30.1 AS tool
 FROM ${BASE_REGISTRY}/ubuntu:${BUILD_TAG}
 
 # install test tools

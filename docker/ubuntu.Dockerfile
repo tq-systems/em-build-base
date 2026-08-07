@@ -7,6 +7,9 @@ FROM amd64/ubuntu:24.04
 # set environment
 ENV DEBIAN_FRONTEND=noninteractive
 
+# install local certificates before the apt install to let ca-certificates pick them up
+COPY ./tmp/certs /usr/local/share/ca-certificates
+
 # install basic tools
 RUN --mount=type=secret,id=ubuntu_sources \
 	[ -s /run/secrets/ubuntu_sources ] \
@@ -37,13 +40,3 @@ RUN existing_user=$(getent passwd ${DOCKER_UID} | cut -d: -f1); \
 	groupadd --gid ${DOCKER_GID} ${DOCKER_USER} \
 	&& useradd --non-unique --create-home --shell /bin/bash \
 		--uid ${DOCKER_UID} --gid ${DOCKER_GID} ${DOCKER_USER}
-
-# install local certificates if existing
-COPY ./tmp/certs /usr/local/share/ca-certificates
-RUN update-ca-certificates
-
-# install the TQ-EM shell library
-ENV LIB_SHELL_VERSION=2.0.0
-RUN git clone https://github.com/tq-systems/em-lib-shell /tmp/libshell \
-	&& git -C /tmp/libshell checkout v${LIB_SHELL_VERSION} \
-	&& make -C /tmp/libshell install && rm -rf /tmp/libshell

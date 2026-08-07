@@ -1,26 +1,21 @@
 # Base Docker Images for TQ Energy Manager
 
 ## Description
-This project creates base Docker images that are used in the GitLab CI/CD pipelines of the Energy Manager project. The images created here serve as the foundation for other projects that also create Docker images. This two-level Docker architecture is necessary to avoid redundant code and provides generic Docker images that can be used across multiple projects.
+This project creates base Docker images that are used in the GitLab CI/CD pipelines of the
+Energy Manager project. The images created here serve as the foundation for other projects that
+also create Docker images. This two-level Docker architecture is necessary to avoid redundant code
+and provides generic Docker images that can be used across multiple projects.
 
-This project also contains GitLab CI/CD templates associated with the Docker images. These templates are generic and intended for all projects, providing reusable CI/CD components that are not tied to specific builds or artifacts.
+This project also contains GitLab CI/CD templates associated with the Docker images. These
+templates are generic and intended for all projects, providing reusable CI/CD components that are
+not tied to specific builds or artifacts.
 
 ## Docker Images
 
-The project builds four specialized Docker images:
+The project builds specialized Docker images:
 
-### 1. **ubuntu** (`${BASE_REGISTRY}/ubuntu:${BUILD_TAG}`)
-- **Base**: Ubuntu 22.04 (amd64)
-- **Purpose**: Common base image with essential tools and TQ-specific configurations
-- **Includes**:
-  - Basic tools: `ca-certificates`, `git`, `make`, `rsync`
-  - TQ-EM shell library (v1.0.0)
-  - Custom user configuration with configurable UID/GID
-  - Local certificate support
-- **Dependencies**: None (base image)
-
-### 2. **docker** (`${BASE_REGISTRY}/docker:${BUILD_TAG}`)
-- **Base**: cruizba/ubuntu-dind:jammy-25.0.1
+### 1. **docker** (`${BASE_REGISTRY}/docker:${BUILD_TAG}`)
+- **Base**: cruizba/ubuntu-dind
 - **Purpose**: Docker-in-Docker image for building other Docker images
 - **Includes**:
   - Docker daemon and CLI tools
@@ -28,24 +23,23 @@ The project builds four specialized Docker images:
   - Local certificate support
 - **Dependencies**: None (independent base)
 
+### 2. **ubuntu** (`${BASE_REGISTRY}/ubuntu:${BUILD_TAG}`)
+- **Base**: Ubuntu (amd64)
+- **Purpose**: Common base image with essential tools and TQ-specific configurations
+- **Includes**:
+  - Basic tools: `ca-certificates`, `git`, `make`, `rsync`
+  - Custom user configuration with configurable UID/GID
+  - Local certificate support
+- **Dependencies**: None (base image)
+
 ### 3. **test** (`${BASE_REGISTRY}/test:${BUILD_TAG}`)
 - **Base**: ubuntu image (from this project)
 - **Purpose**: Code quality and security testing
 - **Includes**:
   - `pylint` for Python code analysis
   - `shellcheck` for shell script analysis
-  - `gitleaks` for secret detection (v8.18.2)
+  - `gitleaks` for secret detection
   - `lint.sh` wrapper script for automated linting
-- **Dependencies**: ubuntu image must be built first
-
-### 4. **yocto** (`${BASE_REGISTRY}/yocto:${BUILD_TAG}`)
-- **Base**: ubuntu image (from this project)
-- **Purpose**: Yocto/embedded Linux development
-- **Includes**:
-  - All Yocto Project required dependencies
-  - Development tools: `build-essential`, `python3-*` packages
-  - Utilities: `jq`, `rsync`, `wget`, `git`
-  - Locale support (en_US.UTF-8)
 - **Dependencies**: ubuntu image must be built first
 
 ## Quick Start
@@ -64,7 +58,6 @@ make all
 # Build specific images
 make ubuntu         # Build only ubuntu image
 make test           # Build ubuntu + test images
-make yocto          # Build ubuntu + yocto images
 make docker         # Build only docker image
 ```
 
@@ -91,7 +84,8 @@ export TQEM_APT_UBUNTU_SOURCES="/path/to/ubuntu.sources"  # DEB822-formatted sou
 ```
 
 #### Local Certificates
-Place custom certificates in the `tmp/certs/` directory. They will be automatically copied to `/usr/local/share/ca-certificates` in all images. The directory is created by `make prepare`.
+Place custom certificates in the `tmp/certs/` directory. They will be automatically copied to
+`/usr/local/share/ca-certificates` in all images. The directory is created by `make prepare`.
 
 #### Custom apt Sources
 By default the apt configuration of the base image is used unchanged. To override it, set
@@ -152,7 +146,6 @@ The images have the following build order due to dependencies:
 1. `docker` (independent)
 2. `ubuntu` (independent)
 3. `test` (requires ubuntu)
-4. `yocto` (requires ubuntu)
 
 ## Available Make Targets
 
@@ -163,7 +156,6 @@ The images have the following build order due to dependencies:
 | `docker`       | Build docker image only            |
 | `ubuntu`       | Build ubuntu image only            |
 | `test`         | Build ubuntu + test images         |
-| `yocto`        | Build ubuntu + yocto images        |
 | `push`         | Push images to registry            |
 | `pull`         | Pull images from registry          |
 | `release`      | Build all + push + clean           |
@@ -173,7 +165,8 @@ The images have the following build order due to dependencies:
 | `clean-docker` | Run docker system prune            |
 
 ## License Information
-All files in this project are classified as product-specific software and bound to the use with the TQ-Systems GmbH product: EM400
+All files in this project are classified as product-specific software and bound to the use
+with the TQ-Systems GmbH product: EM400
 
     SPDX-License-Identifier: LicenseRef-TQSPSLA-1.0.3
 

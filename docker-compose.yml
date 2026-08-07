@@ -35,12 +35,3 @@ services:
         - BASE_REGISTRY=${BASE_REGISTRY}
         - BUILD_TAG=${BUILD_TAG}
     image: ${BASE_REGISTRY}/test:${BUILD_TAG}
-
-  yocto:
-    build:
-      context: .
-      dockerfile: docker/yocto.Dockerfile
-      args:
-        - BASE_REGISTRY=${BASE_REGISTRY}
-        - BUILD_TAG=${BUILD_TAG}
-    image: ${BASE_REGISTRY}/yocto:${BUILD_TAG}

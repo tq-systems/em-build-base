@@ -14,7 +14,7 @@ stages:
 
 # RELEASE_TAG should be updated to an already released version from time to time.
 variables:
-  RELEASE_TAG: 'v3.0.2'
+  RELEASE_TAG: 'v3.1.4'
   BASE_REGISTRY: ${CI_REGISTRY_IMAGE}
 
 # Templates
@@ -106,9 +106,3 @@ Build test:
   image: ${CI_REGISTRY_IMAGE}/docker:${BUILD_TAG}
   extends: .release-settings
   script: make release IMAGE=test
-
-Build yocto:
-  stage: others
-  image: ${CI_REGISTRY_IMAGE}/docker:${BUILD_TAG}
-  extends: .release-settings
-  script: make release IMAGE=yocto
