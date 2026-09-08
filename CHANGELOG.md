@@ -1,3 +1,12 @@
+## [4.0.0] - 2026-08-07
+### Changed
+- Update gitleaks to v8.30.1
+
+### Removed
+- yocto image (moved into the yocto project)
+- shell library (installation moved to yocto/toolchain projects)
+- ci: Removed obsolete .image-yocto template
+
 ## [3.1.4] - 2026-07-13
 ### Changed
 - ci/rules.yml: gate the integration and long term test rules on TARGET_IP only; the target machine
