@@ -2,6 +2,9 @@
 ### Changed
 - Update gitleaks to v8.30.1
 
+### Fixed
+- ci: alpha build skip rules check ALPHA_BUILD == true instead of presence, so ALPHA_BUILD=false no longer skips jobs
+
 ### Removed
 - yocto image (moved into the yocto project)
 - shell library (installation moved to yocto/toolchain projects)
