@@ -22,7 +22,7 @@
 
 .rule-skip-alpha-or-longterm:
   rules:
-    - if: '$ALPHA_BUILD'
+    - if: $ALPHA_BUILD == 'true'
       when: never
     - if: $LONG_TERM_TEST_INIT == 'true' || $LONG_TERM_TEST_PERIODIC == 'true'
       when: never
@@ -30,7 +30,7 @@
 
 .rule-skip-for-alpha-builds:
   rules:
-    - if: '$ALPHA_BUILD'
+    - if: $ALPHA_BUILD == 'true'
       when: never
     - when: on_success
 

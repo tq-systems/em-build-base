@@ -1,1 +1,4 @@
 ## [{{ version }}]
+### Fixed
+- ci: alpha build skip rules check ALPHA_BUILD == true instead of presence,
+  so ALPHA_BUILD=false no longer skips jobs
