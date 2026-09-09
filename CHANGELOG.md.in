@@ -1,1 +1,3 @@
 ## [{{ version }}]
+### Changed
+- Pin yq to a fixed version and expose the gitleaks and yq versions as image labels
