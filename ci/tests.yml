@@ -42,6 +42,10 @@
     - .gitlab-runner-tag
     - .image-test
     - .prevent-loading-artifacts-and-cache
+  variables:
+    GIT_STRATEGY: clone
+    GIT_SUBMODULE_STRATEGY: none
+    GIT_DEPTH: 1
   script:
     - >
         for test_file in $(find . -type f \( -name '*_test.py' -o -name 'test_*.py' \) | sort); do
