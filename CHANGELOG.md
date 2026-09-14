@@ -1,3 +1,11 @@
+## [4.0.1] - 2026-09-14
+### Fixed
+- ci: alpha build skip rules check ALPHA_BUILD == true instead of presence,
+  so ALPHA_BUILD=false no longer skips jobs
+
+### Removed
+- ci/tests.yml: Prevent loading submodules in python unit tests
+
 ## [4.0.0] - 2026-08-07
 ### Changed
 - Update gitleaks to v8.30.1
