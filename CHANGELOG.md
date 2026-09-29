@@ -1,3 +1,7 @@
+## [4.0.2] - 2026-09-29
+### Changed
+- Pin yq to a fixed version and expose the gitleaks and yq versions as image labels
+
 ## [4.0.1] - 2026-09-14
 ### Fixed
 - ci: alpha build skip rules check ALPHA_BUILD == true instead of presence,
