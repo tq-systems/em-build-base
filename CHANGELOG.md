@@ -1,3 +1,7 @@
+## [3.1.5] - 2026-11-06
+### Fixed
+- Makefile: build without Compose bake, so the images build with Docker Compose 2.40 and later
+
 ## [3.1.4] - 2026-07-13
 ### Changed
 - ci/rules.yml: gate the integration and long term test rules on TARGET_IP only; the target machine

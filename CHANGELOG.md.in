@@ -4,6 +4,5 @@
 ### Changed
 
 ### Fixed
-- Makefile: build without Compose bake, so the images build with Docker Compose 2.40 and later
 
 ### Removed
