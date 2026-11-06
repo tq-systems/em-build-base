@@ -3,6 +3,7 @@
 - Pin yq to a fixed version and expose the gitleaks and yq versions as image labels
 
 ### Fixed
+- Makefile: build without Compose bake, so the images build with Docker Compose 2.40 and later
 - ci: alpha build skip rules check ALPHA_BUILD == true instead of presence,
   so ALPHA_BUILD=false no longer skips jobs
 
