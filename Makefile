@@ -42,6 +42,9 @@ endef
 
 DOCKER_COMPOSE := docker compose $(COMPOSE_FILE) build $(BUILD_ARGS)
 
+# Docker Compose 2.40 builds via bake, which refuses the ubuntu_sources secret without an extra grant
+export COMPOSE_BAKE ?= false
+
 all: ${IMAGE}
 
 # copy local certificates if existent
