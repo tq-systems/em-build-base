@@ -37,6 +37,7 @@ The project builds specialized Docker images:
 - **Purpose**: Code quality and security testing
 - **Includes**:
   - `pylint` for Python code analysis
+  - `pytest` for Python unit tests
   - `shellcheck` for shell script analysis
   - `gitleaks` for secret detection
   - `lint.sh` wrapper script for automated linting

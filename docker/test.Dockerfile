@@ -11,6 +11,7 @@ FROM ${BASE_REGISTRY}/ubuntu:${BUILD_TAG}
 # install test tools
 RUN apt-get update && apt-get --yes upgrade && apt-get install --yes \
 	pylint \
+	python3-pytest \
 	shellcheck \
 	wget \
 && apt-get autoremove --yes && apt-get clean --yes

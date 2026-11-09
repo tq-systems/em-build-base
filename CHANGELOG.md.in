@@ -1,4 +1,7 @@
 ## [{{ version }}]
+### Added
+- test image: pytest, so Python unit tests run with pytest
+
 ### Changed
 - Pin yq to a fixed version and expose the gitleaks and yq versions as image labels
 
