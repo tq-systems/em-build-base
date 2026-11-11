@@ -1,3 +1,23 @@
+## [4.1.0] - 2026-11-11
+### Added
+- test image: pytest, so Python unit tests run with pytest
+
+### Fixed
+- Makefile: build without Compose bake, so the images build with Docker Compose 2.40 and later
+- ci: build the images with RELEASE_TAG v4.0.2, so the image push no longer fails with "blob unknown to registry"
+
+## [4.0.2] - 2026-09-29
+### Changed
+- Pin yq to a fixed version and expose the gitleaks and yq versions as image labels
+
+## [4.0.1] - 2026-09-14
+### Fixed
+- ci: alpha build skip rules check ALPHA_BUILD == true instead of presence,
+  so ALPHA_BUILD=false no longer skips jobs
+
+### Removed
+- ci/tests.yml: Prevent loading submodules in python unit tests
+
 ## [4.0.0] - 2026-08-07
 ### Changed
 - Update gitleaks to v8.30.1
